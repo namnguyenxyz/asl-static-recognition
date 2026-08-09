@@ -53,3 +53,21 @@ colab stop -s asl-training
 ```
 
 `colab run --gpu T4 script.py` là lựa chọn job một lần; nó tự giải phóng runtime nếu không dùng `--keep`.
+## Cache build without a remote Hugging Face token
+
+`notebooks/01_audit_cache_publish.ipynb` only builds the cache on Colab. Do not put `HF_TOKEN` in a notebook, Colab command, or remote VM.
+
+```bash
+colab exec -s asl-training -f notebooks/01_audit_cache_publish.ipynb
+mkdir -p cache-download
+colab download -s asl-training /content/asl-cache-build/data/metadata/audit.parquet cache-download/audit.parquet
+colab download -s asl-training /content/asl-cache-build/data/metadata/duplicates.parquet cache-download/duplicates.parquet
+colab download -s asl-training /content/asl-cache-build/data/metadata/segmentation_manifest.parquet cache-download/segmentation_manifest.parquet
+colab download -s asl-training /content/asl-cache-build/data/metadata/cache_manifest.json cache-download/cache_manifest.json
+colab download -s asl-training /content/asl-cache-build/data/metadata/processed_hand_crops.zip cache-download/processed_hand_crops.zip
+
+# Runs locally, after setting a write-capable token in the local environment.
+HF_TOKEN=hf_... python scripts/upload_hf_cache.py --cache-dir cache-download
+```
+
+The local `cache-download/` directory is ignored by Git. After a successful upload, remove the downloaded cache if disk space is needed and stop the GPU session.

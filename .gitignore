@@ -13,6 +13,9 @@ assets/*.task
 data/raw/.cache/
 notebooks/*_output.ipynb
 scripts/colab_segment.py
+.secrets/
+.env
+cache-download/
 
 # Reusable metadata cache: small enough for Git and needed to skip dataset audit.
 !data/metadata/dataset_audit.csv

@@ -12,7 +12,7 @@ Nhận dạng 36 cử chỉ ASL tĩnh (A–Z, 0–9) bằng MediaPipe Hand Landm
 
 **Cách chạy chính:** mở `notebooks/ASL_End_to_End_Colab.ipynb` trong Colab và chọn Run all. Notebook tự cài dependencies, tải `hnam25/asl-hand-gesture-images`, tải MediaPipe task model, train và xuất metrics/artifacts.
 
-Để tạo cache tái sử dụng cho audit và MediaPipe crops, chạy một lần `notebooks/01_audit_cache_publish.ipynb` với biến môi trường `HF_TOKEN` có quyền ghi dataset. Notebook này publish Parquet metadata, manifest fingerprint và archive `processed_hand_crops.zip` lên cùng Hugging Face Dataset. Sau đó dùng `notebooks/02_train_from_published_cache.ipynb` để train/evaluate mà không audit hoặc chạy MediaPipe lại.
+Để tạo cache tái sử dụng cho audit và MediaPipe crops, chạy một lần `notebooks/01_audit_cache_publish.ipynb` trên Colab. Notebook này **không có Hugging Face write token**: nó chỉ tạo Parquet metadata, manifest fingerprint và archive `processed_hand_crops.zip`. Dùng `colab download` tải năm artifact về local, rồi chạy `HF_TOKEN=... python scripts/upload_hf_cache.py --cache-dir cache-download` tại local để publish lên Hugging Face. Sau đó dùng `notebooks/02_train_from_published_cache.ipynb` để train/evaluate mà không audit hoặc chạy MediaPipe lại.
 
 Các notebook nhỏ và CLI bên dưới chỉ dùng khi cần debug từng bước:
 
