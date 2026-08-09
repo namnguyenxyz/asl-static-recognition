@@ -1,0 +1,20 @@
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+data/raw/
+data/processed/
+data/splits/*.csv
+data/metadata/*.csv
+outputs/models/
+outputs/metrics/
+outputs/figures/
+outputs/logs/
+assets/*.task
+data/raw/.cache/
+notebooks/*_output.ipynb
+scripts/colab_segment.py
+
+# Reusable metadata cache: small enough for Git and needed to skip dataset audit.
+!data/metadata/dataset_audit.csv
+!data/metadata/duplicate_images.csv
+!data/metadata/segmentation_failures.csv
