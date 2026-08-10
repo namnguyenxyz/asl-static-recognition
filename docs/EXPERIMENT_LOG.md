@@ -1,7 +1,20 @@
 # Nhật ký thí nghiệm
 
-| Experiment ID | Date | Model/config | Split seed | Val accuracy | Test accuracy | Recall O | Recall 0 | O→0 | 0→O | Latency/FPS | Decision |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|---|
-| baseline-001 | | MobileNetV2 frozen | 42 | | | | | | | | |
+Tất cả test score được đọc sau khi model selection hoàn tất trên validation P2. Test P9 không dùng để chọn hyperparameter.
 
-Ghi lại mỗi run để chỉ chọn model cuối dựa trên test metrics đã khóa, không dựa trên một lần chạy ngẫu nhiên.
+| ID | Model/config | Val acc. | Test acc. | Macro precision | Macro recall | Macro-F1 | Coverage test | Quyết định |
+|---|---|---:|---:|---:|---:|---:|---:|---|
+| `cnn-001` | CNN from scratch | 72.10% | 83.25% | 79.57% | 83.31% | 80.10% | 3,589/3,589 | Mốc CNN học từ đầu. Recall lớp `0` = 0%. |
+| `mnv4-001` | MobileNetV4 Conv-S ImageNet, frozen backbone | 66.42% | 79.88% | 77.65% | 79.94% | 77.29% | 3,589/3,589 | Transfer frozen không vượt CNN tổng thể. |
+| `mp-svm-001` | MediaPipe 2-hand landmarks (130D) + StandardScaler + RBF SVM (`C=10`) | 95.01% | 90.53% | 87.04% | 90.52% | 88.03% | 3,589/3,589 | 29/35,441 landmark failures, đều ở train; test coverage 100%. |
+| `mnv4-002` | MobileNetV4 Conv-S ImageNet, full fine-tuning | 92.11% | **94.51%** | 94.05% | 94.53% | **93.38%** | 3,589/3,589 | Image baseline mạnh nhất hiện tại. |
+
+## Protocol chung
+
+- Dataset revision: `8f36ac00ece6dfce94410a980a839d93a912d366`.
+- Raw archive SHA-256: `594cfa0158044085ed61351315c187a6f3a3f9087795b4f4cdba68ecd04f12b1`.
+- Exact duplicate policy: một canonical representative cho mỗi raw-image SHA-256; 36,000 → 35,441 ảnh.
+- Participant split: train P1/P3–P8/P10, validation P2, test P9; seed 42.
+- `O` và `0` có recall 100% ở ba baseline cuối, không có nhầm `O→0` hoặc `0→O`; `cnn-001` có recall `0` = 0%.
+
+Metrics chi tiết, confusion matrix, environment và config bất biến nằm trong model artifacts trên Hugging Face; xem [báo cáo tái lập](THESIS_REPRODUCIBILITY_REPORT.md).

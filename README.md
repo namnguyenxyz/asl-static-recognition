@@ -1,43 +1,52 @@
 # Static ASL Hand Gesture Recognition
 
-Nhận dạng 36 cử chỉ ASL tĩnh (A–Z, 0–9) bằng MediaPipe Hand Landmarker và TensorFlow/Keras transfer learning. Notebook hoàn chỉnh [ASL_End_to_End_Colab.ipynb](notebooks/ASL_End_to_End_Colab.ipynb) là entry point chính; `src/` là phiên bản module hóa cho demo local và kiểm thử.
+Đồ án phân loại 36 ký hiệu ASL tĩnh (`0–9`, `A–Z`) theo hướng tái lập được. Repository lưu mã nguồn, notebook và tài liệu; dữ liệu lớn, checkpoint và metrics đầy đủ được version hóa trên Hugging Face.
 
-## Chuẩn bị
+## Kết quả hiện tại
 
-1. Tải dataset từ Hugging Face repo công khai của nhóm: `python scripts/download_dataset.py`. Script chỉ tải `ASL_Raw_Images.zip`, giải nén và tự tìm cấu trúc lớp `0`–`9`, `A`–`Z`.
-2. Tải MediaPipe Hand Landmarker task model và lưu tại `assets/hand_landmarker.task` (hoặc sửa `configs/baseline.yaml`).
-3. Cài môi trường: `python -m pip install -r requirements.txt`.
+Mọi baseline dưới đây dùng cùng protocol: archive dữ liệu đã khóa phiên bản, dedup theo SHA-256, split participant-disjoint cố định (train: P1, P3–P8, P10; validation: P2; test: P9) và seed 42.
 
-## Chạy baseline
+| ID | Phương pháp | Val acc. | Test acc. | Macro-F1 | Artifact |
+|---|---|---:|---:|---:|---|
+| `cnn-001` | CNN from scratch | 72.10% | 83.25% | 80.10% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-cnn-baseline) |
+| `mnv4-001` | MobileNetV4 Conv-S ImageNet, frozen | 66.42% | 79.88% | 77.29% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mobilenetv4-baseline) |
+| `mp-svm-001` | MediaPipe two-hand landmarks + RBF SVM | 95.01% | 90.53% | 88.03% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mediapipe-svm-baseline) |
+| `mnv4-002` | MobileNetV4 Conv-S ImageNet, full fine-tuning | 92.11% | **94.51%** | **93.38%** | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mobilenetv4-finetune-baseline) |
 
-**Cách chạy chính:** mở `notebooks/ASL_End_to_End_Colab.ipynb` trong Colab và chọn Run all. Notebook tự cài dependencies, tải `hnam25/asl-hand-gesture-images`, tải MediaPipe task model, train và xuất metrics/artifacts.
+`mnv4-002` là image baseline mạnh nhất hiện tại. Báo cáo chi tiết, limitations và hướng phương pháp đề xuất nằm trong [báo cáo tái lập](docs/THESIS_REPRODUCIBILITY_REPORT.md).
 
-Để tạo cache tái sử dụng cho audit và MediaPipe crops, chạy một lần `notebooks/01_audit_cache_publish.ipynb` trên Colab. Notebook này **không có Hugging Face write token**: nó chỉ tạo Parquet metadata, manifest fingerprint và archive `processed_hand_crops.zip`. Dùng `colab download` tải năm artifact về local, rồi chạy `HF_TOKEN=... python scripts/upload_hf_cache.py --cache-dir cache-download` tại local để publish lên Hugging Face. Sau đó dùng `notebooks/02_train_from_published_cache.ipynb` để train/evaluate mà không audit hoặc chạy MediaPipe lại.
+## Tái lập nhanh
 
-Các notebook nhỏ và CLI bên dưới chỉ dùng khi cần debug từng bước:
+1. Cài môi trường:
 
-Mở notebook theo thứ tự `00` đến `05`, hoặc chạy một stage bằng:
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
-```bash
-python run_baseline.py --stage audit
-python run_baseline.py --stage segment
-python run_baseline.py --stage split
-python run_baseline.py --stage train
-python run_baseline.py --stage evaluate
-python -m src.inference.webcam_demo
-```
+2. Dùng các notebook tái lập trên Google Colab:
 
-Kết quả được lưu trong `outputs/`; ảnh crop, metadata và split manifests được lưu dưới `data/`. Models tự áp dụng preprocessing ImageNet phù hợp với backbone; input dataset giữ giá trị RGB `0..255`. Không commit `data/raw`, `data/processed` hay model artifacts.
+   - `notebooks/01_audit_only_publish.ipynb`: audit SHA-256 và publish metadata cache.
+   - `notebooks/08_cnn_baseline_reproducible.ipynb`: `cnn-001`.
+   - `notebooks/09_mobilenetv4_timm_baseline_reproducible.ipynb`: `mnv4-001`.
+   - `notebooks/10_mediapipe_svm_baseline_reproducible.ipynb`: `mp-svm-001`.
+   - `notebooks/11_mobilenetv4_timm_finetune_reproducible.ipynb`: `mnv4-002`.
 
-Khi repo có commit dữ liệu ổn định, ghi SHA vào experiment log và tải tái lập bằng `python scripts/download_dataset.py --revision <commit-sha>`.
+   Notebook `11` in progress theo batch/epoch, ETA và ghi `training_progress.csv` sau mỗi epoch. Hướng dẫn vận hành session nằm ở [Google Colab CLI runbook](docs/GOOGLE_COLAB_CLI.md).
 
-## Colab
+3. Dùng artifacts đã publish thay vì train lại. Mỗi model repository chứa checkpoint, metrics, split/config manifest, environment và notebook tương ứng. Landmark cache tái dùng của MediaPipe nằm tại [dataset repository](https://huggingface.co/datasets/hnam25/asl-hand-gesture-images/tree/main/derived/mediapipe-two-hand-landmarks-v1).
 
-Quy trình dùng session GPU và cách dừng session an toàn nằm trong [docs/GOOGLE_COLAB_CLI.md](docs/GOOGLE_COLAB_CLI.md).
+## Tính tái lập
+
+- Dataset: [`hnam25/asl-hand-gesture-images`](https://huggingface.co/datasets/hnam25/asl-hand-gesture-images), revision `8f36ac00ece6dfce94410a980a839d93a912d366`.
+- Raw archive SHA-256: `594cfa0158044085ed61351315c187a6f3a3f9087795b4f4cdba68ecd04f12b1`.
+- Sau dedup: 35,441 ảnh canonical; loại 559 exact duplicates.
+- Không commit raw data, cache download hoặc checkpoints vào Git. Các file này được kiểm tra lại bằng SHA-256 từ Hugging Face.
+
+Xem [DATASET.md](docs/DATASET.md), [AUDIT_CACHE.md](docs/AUDIT_CACHE.md), [EXPERIMENT_LOG.md](docs/EXPERIMENT_LOG.md) và [BASELINE_STRATEGY.md](docs/BASELINE_STRATEGY.md) để biết chi tiết.
 
 ## Cấu trúc
 
-- `notebooks/`: điều phối các thí nghiệm có thể trình bày trong báo cáo.
-- `src/`: triển khai pipeline có thể kiểm thử/tái sử dụng.
-- `configs/`: tham số tái lập thí nghiệm.
-- `docs/`: nguồn dữ liệu, vận hành Colab và nhật ký thực nghiệm.
+- `notebooks/`: các thí nghiệm tái lập được trên Colab.
+- `src/`: pipeline module hóa và inference local.
+- `tests/`: smoke tests cho split/model.
+- `docs/`: protocol, audit, experiment log và báo cáo thesis-ready.

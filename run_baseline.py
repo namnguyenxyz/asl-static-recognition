@@ -23,7 +23,7 @@ def main():
         try: segment_manifest(pd.read_csv(Path(cfg["paths"]["metadata"]) / "dataset_audit.csv"), cfg["paths"]["processed"], cropper)
         finally: cropper.close()
     if args.stage in ("split", "all"):
-        create_splits(Path(cfg["paths"]["metadata"]) / "segmentation_failures.csv", cfg["paths"]["splits"], cfg["seed"], cfg["data"]["train_ratio"], cfg["data"]["val_ratio"])
+        create_splits(Path(cfg["paths"]["metadata"]) / "segmentation_failures.csv", cfg["paths"]["splits"], Path(cfg["paths"]["metadata"]) / "dataset_audit.csv", cfg["seed"], cfg["data"]["train_ratio"], cfg["data"]["val_ratio"])
     if args.stage in ("train", "all"): train_baseline(cfg)
     if args.stage in ("evaluate", "all"): print(evaluate_model(cfg))
 

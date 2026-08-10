@@ -15,7 +15,7 @@ def make_dataset(manifest_path: str | Path, classes: list[str], image_size: int,
         image = tf.io.decode_image(tf.io.read_file(path), channels=3, expand_animations=False)
         image.set_shape([None, None, 3])
         image = tf.image.resize(image, [image_size, image_size])
-        # Models apply their own architecture-specific ImageNet preprocessing.
+        # Models apply their own architecture-specific preprocessing.
         image = tf.cast(image, tf.float32)
         return image, tf.one_hot(lookup(label), len(classes))
     return ds.map(load, num_parallel_calls=tf.data.AUTOTUNE).batch(batch_size).prefetch(tf.data.AUTOTUNE)

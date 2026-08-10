@@ -11,11 +11,12 @@ Repo là public, không gated và hiện chứa `ASL_HG_36000/ASL_Raw_Images.zip
 
 ## Derived cache
 
-Cache do pipeline tạo được publish dưới `derived/mediapipe-hand-landmarker-v1/` trong cùng dataset repo:
+Các cache do pipeline tạo được publish trong cùng dataset repo. Cache crop lịch sử nằm dưới `derived/mediapipe-hand-landmarker-v1/`; cache landmark hai tay tái dùng cho `mp-svm-001` nằm dưới `derived/mediapipe-two-hand-landmarks-v1/`.
 
 - `audit.parquet`, `duplicates.parquet`, `segmentation_manifest.parquet`;
 - `cache_manifest.json` có SHA-256 của raw archive và cấu hình MediaPipe;
-- `processed_hand_crops.zip` chứa toàn bộ crop đầu vào classifier.
+- `processed_hand_crops.zip` chứa toàn bộ crop đầu vào classifier;
+- cache two-hand mới chứa `landmark_manifest.parquet`, `landmark_status.csv` và `detection_summary.json`; nó lưu 130D landmark feature cùng trạng thái detect để không phải chạy MediaPipe lại.
 
 `01_audit_cache_publish.ipynb` tạo/publish cache. `02_train_from_published_cache.ipynb` xác minh raw archive SHA-256 trước khi restore cache; nếu không khớp, nó dừng và yêu cầu rebuild cache để tránh reuse dữ liệu sai. `ASL_End_to_End_Colab.ipynb` vẫn là pipeline rebuild đầy đủ.
 
