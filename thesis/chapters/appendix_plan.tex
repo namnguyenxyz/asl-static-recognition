@@ -1,0 +1,26 @@
+\chapter{Kế hoạch thực hiện}
+
+Thời gian thực hiện dự kiến từ ngày 20/07/2026 đến ngày 23/09/2026, tương đương chín tuần và ba ngày. Kế hoạch dưới đây dùng thuật ngữ thống nhất và giữ tập kiểm thử cho đánh giá cuối cùng.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Kế hoạch thực hiện dự kiến}
+\label{tab:project-plan}
+\begin{tabular}{p{2.1cm}p{7.0cm}p{4.0cm}}
+\toprule
+Thời gian & Công việc & Sản phẩm/tiêu chí liên quan\\
+\midrule
+20--26/07 & Khảo sát tài liệu; tải, kiểm tra tính toàn vẹn và audit ASL-HG; hoàn thiện đề cương. & Báo cáo audit, citation dataset, đề cương.\\
+27/07--09/08 & Xây dựng MediaPipe Hand Landmarker để định vị bàn tay và trích xuất ROI; ghi manifest các trường hợp không phát hiện/ROI không hợp lệ. & Cache ROI và failure manifest.\\
+10--16/08 & Chuẩn hóa ảnh; tạo split phân tầng train/validation/test 80/10/10; kiểm tra leakage. & Manifest split tái lập.\\
+17--30/08 & Huấn luyện các baseline CNN, MobileNetV4 Conv-S đóng băng và MediaPipe landmarks+SVM; chọn checkpoint bằng validation. & Checkpoint, learning curves, log và artifact tái lập.\\
+31/08--06/09 & Fine-tuning toàn bộ MobileNetV4 Conv-S; mọi lựa chọn dùng validation, không dùng test. & Bảng so sánh validation, mô hình ứng viên.\\
+07--13/09 & Xây dựng nguyên mẫu desktop OpenCV; đo độ trễ/FPS và xử lý trạng thái không phát hiện bàn tay. & Ứng dụng demo, log latency/FPS.\\
+14--20/09 & Chốt mô hình theo validation, đánh giá cuối cùng một lần trên test; lập confusion matrix và phân tích O/0; viết báo cáo. & Metrics test, confusion matrix, bản thảo báo cáo.\\
+21--23/09 & Rà soát kỹ thuật, báo cáo, tài liệu tham khảo và chuẩn bị bảo vệ. & Bản nộp, slide và video demo.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Mỗi mục tiêu trong Mở đầu được nối với một artifact hoặc chỉ số: pipeline tái lập được kiểm tra bằng manifest/config; mô hình được đánh giá bằng Accuracy, Precision, Recall, F1-score và confusion matrix; O/0 được kiểm tra theo hai hướng nhầm lẫn; nguyên mẫu desktop được đo bằng độ trễ và FPS.

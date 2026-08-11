@@ -37,4 +37,4 @@ hf download hnam25/asl-hand-gesture-images \
 sha256sum data/raw/ASL_HG_36000/ASL_Raw_Images.zip
 ```
 
-`notebooks/ASL_End_to_End_Colab.ipynb` reuses `data/metadata/dataset_audit.csv` when it already exists, but it does not automatically download or fingerprint-check this published cache. Perform the manifest check above, then copy/use the validated `audit.csv` deliberately. `notebooks/01_audit_only_publish.ipynb` is the reproducible producer for a new cache version when the raw archive changes.
+`notebooks/01_audit_only_publish.ipynb` là notebook tái lập để tạo cache mới khi raw archive thay đổi. Các notebook baseline `08`--`11` dùng manifest canonical và participant split trong artifact đã khóa revision; không random split từng ảnh.

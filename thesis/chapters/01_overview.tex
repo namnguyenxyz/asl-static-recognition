@@ -1,0 +1,19 @@
+\chapter{TỔNG QUAN}
+
+\section{Bài toán nhận dạng ASL}
+Nhận dạng ASL từ ảnh trong đồ án này là bài toán ánh xạ một ảnh đầu vào $x$ vào một nhãn $y$ trong tập 36 lớp của ASL-HG. Nhãn biểu diễn chữ cái hoặc chữ số theo quy ước dữ liệu; không nên diễn giải tập nhãn này như khẳng định rằng mọi chữ cái fingerspelling ASL đều tĩnh. Đặc biệt, J và Z có thành phần chuyển động trong fingerspelling ASL. Bài toán không bao gồm nhận dạng động tác theo thời gian hoặc ghép các ký hiệu thành câu.
+
+\section{Tổng quan phân loại ảnh}
+Phân loại ảnh là nhiệm vụ dự đoán lớp của ảnh dựa trên các đặc trưng thị giác. Các hệ thống học sâu thường học đồng thời phép biểu diễn đặc trưng và bộ phân loại. Với dữ liệu có kích thước vừa phải, học chuyển giao cho phép sử dụng backbone đã học từ ImageNet rồi điều chỉnh lớp phân loại cho tập lớp đích.
+
+\section{Các hướng tiếp cận liên quan}
+Các hướng tiếp cận chính cho nhận dạng cử chỉ gồm sử dụng đặc trưng hình ảnh trực tiếp, sử dụng điểm mốc bàn tay, hoặc kết hợp định vị vùng bàn tay với mạng nơ-ron tích chập. MediaPipe Hand Landmarker sử dụng bộ phát hiện lòng bàn tay để xác định vùng bàn tay và mô hình landmark để suy ra 21 điểm mốc; các điểm này có thể được dùng làm đặc trưng hoặc để định vị ROI \cite{mediapipe}. Trong các thí nghiệm hiện có, nhóm đánh giá CNN từ đầu, MediaPipe landmarks kết hợp SVM, và MobileNetV4 Conv-S tiền huấn luyện \cite{mobilenetv4}.
+
+\section{Vấn đề còn tồn tại}
+Hiệu quả của hệ thống có thể suy giảm khi ảnh bị mờ, nền phức tạp hoặc bộ phát hiện không tìm thấy bàn tay. Ngoài ra, hai lớp O và 0 có thể có hình dạng gần nhau trong một số ảnh, khiến Accuracy tổng thể không phản ánh đầy đủ chất lượng từng lớp. Vì vậy, đồ án cần ghi nhận các trường hợp không định vị được bàn tay thay vì âm thầm loại bỏ và cần phân tích các ô nhầm lẫn O--0 riêng biệt.
+
+\section{Khoảng trống và hướng giải quyết}
+Đồ án tập trung vào một quy trình có thể tái lập: khóa revision dữ liệu, kiểm kê dữ liệu, canonicalization theo SHA-256, chia participant-disjoint và đánh giá theo cùng protocol. Cách tổ chức này tạo cơ sở để so sánh các baseline và trạng thái backbone đóng băng với tinh chỉnh toàn bộ một cách công bằng. Hướng định vị ROI bằng MediaPipe sẽ chỉ được so sánh với baseline ảnh sau khi policy xử lý trường hợp không phát hiện bàn tay được khóa trước khi xem test metrics.
+
+\section{Kết luận chương}
+Chương này đã xác định phạm vi bài toán, các hướng tiếp cận chính và các rủi ro cần đánh giá. Chương tiếp theo trình bày cơ sở lý thuyết và dữ liệu được sử dụng.

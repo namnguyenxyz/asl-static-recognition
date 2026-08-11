@@ -1,0 +1,52 @@
+\chapter{PHƯƠNG PHÁP VÀ THIẾT KẾ THỰC NGHIỆM}
+
+\section{Kiến trúc tổng thể của pipeline}
+Quy trình thực nghiệm hiện có gồm: tải archive đã khóa revision, kiểm kê và canonicalization theo SHA-256, tái dựng participant split, tiền xử lý theo data configuration, huấn luyện, lựa chọn checkpoint theo validation và đánh giá test. Notebook là đơn vị thực nghiệm tái lập được.
+
+\begin{figure}[ht]
+\centering
+\begin{tabular}{c}
+\fbox{Archive đã khóa revision} $\rightarrow$ \fbox{Kiểm kê và canonicalization}\\[0.4cm]
+$\rightarrow$ \fbox{Participant split} $\rightarrow$ \fbox{Tiền xử lý MobileNetV4}\\[0.4cm]
+$\rightarrow$ \fbox{Chọn checkpoint theo validation} $\rightarrow$ \fbox{Đánh giá test}
+\end{tabular}
+\caption{Quy trình xử lý và đánh giá của hệ thống}
+\label{fig:pipeline}
+\par\smallskip\textit{Nguồn: nhóm tác giả.}
+\end{figure}
+
+\section{Chuẩn bị dữ liệu}
+Kiểm kê kiểm tra số lớp, khả năng đọc ảnh, hash và ảnh trùng. Các run ảnh sử dụng một canonical representative cho mỗi SHA-256 để loại leakage do ảnh trùng. Manifest canonical và participant split được lấy từ artifact \texttt{cnn-001} có revision khóa. MediaPipe landmarks được tạo và lưu cache riêng cho baseline SVM; MediaPipe-guided ROI chưa phải là đầu vào của run \texttt{mnv4-002}.
+
+\section{Mô hình baseline}
+Run \texttt{mnv4-001} sử dụng MobileNetV4 Conv-S tiền huấn luyện trên ImageNet với toàn bộ mạng nền bị đóng băng; chỉ đầu phân loại được thay để dự đoán 36 lớp. Run \texttt{mnv4-002} khởi tạo lại từ checkpoint ImageNet bất biến, thay đầu phân loại và cho phép toàn bộ tham số được cập nhật. Cả hai run đều chọn checkpoint có validation loss tốt nhất; do đó, kết quả test không được dùng để quyết định epoch hoặc siêu tham số.
+
+\section{Cấu hình huấn luyện}
+\begin{table}[ht]
+\centering
+\caption{Cấu hình huấn luyện baseline dự kiến}
+\label{tab:training-config}
+\begin{tabular}{ll}
+\toprule
+Thành phần & Cấu hình\\
+\midrule
+Kích thước ảnh & 224$\times$224\\
+Backbone & MobileNetV4 Conv-S, ImageNet-1K pretrained\\
+Số lớp đầu ra & 36\\
+Optimizer & AdamW\\
+Learning rate (full fine-tuning) & $10^{-4}$\\
+Batch size & 64\\
+Số epoch tối đa & 15\\
+Seed & 42\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Thiết kế cải tiến}
+Các baseline CNN, MobileNetV4 frozen, MobileNetV4 full fine-tuning và MediaPipe landmarks+SVM dùng cùng canonicalization và participant split. Fine-tuning hiện có mở toàn bộ pretrained backbone với learning rate $10^{-4}$; đây là một lựa chọn thực nghiệm cụ thể, không phải quy tắc chung cho mọi kiến trúc. Hướng cải tiến MediaPipe-guided crop/normalization kết hợp MobileNetV4 cần được so sánh với \texttt{mnv4-002} bằng cùng split, policy fallback được khóa trước khi xem metrics test, và ablation raw image/crop, one-hand/two-hand, landmark-only/image-only. Tập kiểm thử không được dùng để chọn các phương án này.
+
+\section{Bảo đảm khả năng tái lập}
+Mỗi run cần lưu seed, config, phiên bản thư viện, checkpoint, learning curves, confusion matrix và failure manifest. Colab CLI được dùng để cấp GPU và thực thi notebook. Nguyên mẫu suy luận chạy cục bộ bằng Python và OpenCV trên nền tảng desktop; webcam không chạy trong session GPU. Nếu yêu cầu triển khai thay đổi, việc xây dựng giao diện web là hạng mục ngoài phạm vi hiện tại và cần được quyết định riêng.
+
+\section{Kết luận chương}
+Chương này đã mô tả pipeline baseline, cấu hình mô hình và nguyên tắc thiết kế thí nghiệm. Các kết quả định lượng sẽ được trình bày ở chương tiếp theo sau khi hoàn thành các run chính thức.

@@ -1,0 +1,14 @@
+\chapter*{KẾT LUẬN VÀ KIẾN NGHỊ}
+\addcontentsline{toc}{chapter}{KẾT LUẬN VÀ KIẾN NGHỊ}
+
+\section*{1. Kết luận}
+Đồ án xây dựng protocol tái lập cho bài toán phân loại 36 lớp ảnh theo quy ước ASL-HG. Các baseline hiện có sử dụng canonicalization theo SHA-256, participant-disjoint split và MobileNetV4 Conv-S full fine-tuning; hướng định vị/trích xuất ROI bàn tay dựa trên MediaPipe kết hợp mô hình ảnh là công việc tiếp theo.\todo{Cập nhật kết luận khi hoàn thành các thí nghiệm đề xuất.}
+
+\section*{2. Đóng góp}
+Các đóng góp đã có gồm artifact tái lập với dataset revision, checksum, canonical split, checkpoint và metrics của các baseline; phân tích riêng O/0; và MobileNetV4 Conv-S full fine-tuning là baseline ảnh tốt nhất trên split P9. Các đóng góp liên quan đến MediaPipe-guided crop và nguyên mẫu desktop chỉ được giữ lại sau khi có artifact tương ứng.
+
+\section*{3. Hạn chế}
+Các hạn chế cần đánh giá gồm phạm vi phân loại ảnh hoặc từng khung hình độc lập, không mô hình hóa chuyển động của J/Z hay dynamic gestures, phụ thuộc vào MediaPipe, điều kiện dataset cố định và khả năng tổng quát sang môi trường thực tế khác.\todo{Bổ sung hạn chế dựa trên error analysis.}
+
+\section*{4. Hướng phát triển}
+Các hướng phát triển gồm fine-tuning có kiểm soát, augmentation chuyên biệt cho O/0, xử lý nhiều điều kiện ánh sáng, tối ưu mô hình cho thiết bị biên và mở rộng từ nhận dạng ký hiệu đơn lẻ sang chuỗi ký hiệu.

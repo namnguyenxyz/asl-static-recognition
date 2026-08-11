@@ -27,9 +27,9 @@ Khả năng cấp T4/L4 phụ thuộc quota. Nếu T4 không khả dụng, thử
 Thư mục mặc định remote là `/content`. Upload source/data theo từng file hoặc archive; giải nén/project setup bằng code chạy qua `colab exec`. Chạy notebook:
 
 ```bash
-colab exec -s asl-training -f notebooks/ASL_End_to_End_Colab.ipynb --timeout 3600
-colab download -s asl-training /content/asl-static-recognition/outputs/models/baseline_mobilenetv2.keras outputs/models/baseline_mobilenetv2.keras
-colab download -s asl-training /content/asl-static-recognition/outputs/metrics/o_zero_analysis.json outputs/metrics/o_zero_analysis.json
+colab exec -s asl-training -f notebooks/11_mobilenetv4_timm_finetune_reproducible.ipynb --timeout 7200
+colab download -s asl-training /content/asl-mnv4-finetune/outputs/models/mnv4_002_participant_disjoint_full_finetune.safetensors outputs/models/mnv4_002_participant_disjoint_full_finetune.safetensors
+colab download -s asl-training /content/asl-mnv4-finetune/outputs/metrics/summary.json outputs/metrics/mnv4_002_summary.json
 ```
 
 Mỗi notebook phải đọc YAML, không dựa vào biến từ notebook trước. Lưu experiment ID, config, metrics, figures và checkpoint vào `outputs/`.
@@ -53,21 +53,3 @@ colab stop -s asl-training
 ```
 
 `colab run --gpu T4 script.py` là lựa chọn job một lần; nó tự giải phóng runtime nếu không dùng `--keep`.
-## Cache build without a remote Hugging Face token
-
-`notebooks/01_audit_cache_publish.ipynb` only builds the cache on Colab. Do not put `HF_TOKEN` in a notebook, Colab command, or remote VM.
-
-```bash
-colab exec -s asl-training -f notebooks/01_audit_cache_publish.ipynb
-mkdir -p cache-download
-colab download -s asl-training /content/asl-cache-build/data/metadata/audit.parquet cache-download/audit.parquet
-colab download -s asl-training /content/asl-cache-build/data/metadata/duplicates.parquet cache-download/duplicates.parquet
-colab download -s asl-training /content/asl-cache-build/data/metadata/segmentation_manifest.parquet cache-download/segmentation_manifest.parquet
-colab download -s asl-training /content/asl-cache-build/data/metadata/cache_manifest.json cache-download/cache_manifest.json
-colab download -s asl-training /content/asl-cache-build/data/metadata/processed_hand_crops.zip cache-download/processed_hand_crops.zip
-
-# Runs locally, after setting a write-capable token in the local environment.
-HF_TOKEN=hf_... python scripts/upload_hf_cache.py --cache-dir cache-download
-```
-
-The local `cache-download/` directory is ignored by Git. After a successful upload, remove the downloaded cache if disk space is needed and stop the GPU session.

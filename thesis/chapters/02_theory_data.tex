@@ -1,0 +1,46 @@
+\chapter{CƠ SỞ LÝ THUYẾT VÀ DỮ LIỆU}
+
+\section{Biểu diễn bài toán phân loại ảnh}
+Với tập dữ liệu $\mathcal{D}=\{(x_i,y_i)\}_{i=1}^{N}$, mô hình nhận một ảnh $x_i$ và sinh ra vector xác suất trên 36 lớp. Nhãn dự đoán được chọn theo xác suất lớn nhất. Trong quá trình huấn luyện, hàm mất mát cross-entropy được tối thiểu hóa trên tập huấn luyện.
+
+\section{Mạng nơ-ron tích chập}
+Mạng nơ-ron tích chập (CNN) sử dụng các phép tích chập để học những đặc trưng từ cục bộ đến trừu tượng. Các tầng sâu hơn thường biểu diễn hình dạng và cấu trúc có ích cho phân loại. Trong đồ án, CNN được xem là nền tảng lý thuyết cho backbone học chuyển giao.
+
+\section{Học chuyển giao và MobileNetV4}
+Học chuyển giao sử dụng trọng số được huấn luyện trước trên một tập dữ liệu lớn, sau đó thay thế đầu phân loại để phù hợp với tập lớp đích. Mục đích là tận dụng đặc trưng tiền huấn luyện và giảm chi phí huấn luyện so với huấn luyện từ đầu; phương pháp này không tự bảo đảm một mức hiệu năng cụ thể.
+
+Các thí nghiệm ảnh sử dụng MobileNetV4 Conv-S tiền huấn luyện trên ImageNet-1K \cite{mobilenetv4}. Run \texttt{mnv4-001} đóng băng toàn bộ mạng nền và chỉ huấn luyện đầu phân loại 36 lớp. Run \texttt{mnv4-002} khởi tạo từ cùng trọng số ImageNet, thay đầu phân loại rồi mở khóa toàn bộ tầng để tinh chỉnh với learning rate $10^{-4}$. Việc thứ hai là full fine-tuning; nó khác với huấn luyện riêng đầu phân loại ở run đóng băng.
+
+\section{Dữ liệu ASL-HG}
+Tập dữ liệu được sử dụng là ASL-HG, gồm 36.000 ảnh thuộc 36 lớp A--Z và 0--9 \cite{asl-hg-original}. Nguồn tải trực tiếp phục vụ tái lập là repository Hugging Face của nhóm \cite{asl-hg-repo}. Đây là quy ước phân lớp của dataset; mô hình không xác nhận tính tĩnh của mọi chữ cái ASL về mặt ngôn ngữ học. Kiểm kê dữ liệu đọc được 36.000 ảnh và phát hiện 994 dòng thuộc 435 nhóm ảnh trùng chính xác. Sau canonicalization theo SHA-256, 35.441 ảnh được giữ lại cho protocol thực nghiệm.
+
+\begin{table}[ht]
+\centering
+\caption{Thông tin tổng quan về tập dữ liệu ASL-HG}
+\label{tab:dataset-overview}
+\begin{tabular}{ll}
+\toprule
+Thuộc tính & Giá trị\\
+\midrule
+Số lượng ảnh & 36.000\\
+Số lớp & 36\\
+Nhãn & A--Z và 0--9 theo quy ước ASL-HG\\
+Kiểu dữ liệu & Ảnh một bàn tay; phân loại từng ảnh\\
+Nguồn tải & Hugging Face Dataset repository\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{MediaPipe Hand Landmarker và tiền xử lý}
+MediaPipe Hand Landmarker được dùng để phát hiện bàn tay và suy ra 21 điểm mốc trên bàn tay \cite{mediapipe}. Theo thiết kế của MediaPipe, bộ phát hiện lòng bàn tay xác định vùng bàn tay, sau đó mô hình landmark xử lý vùng crop. Trong run \texttt{mp-svm-001}, đặc trưng landmark hai tay có 130 chiều được chuẩn hóa bằng StandardScaler và phân loại bằng RBF SVM. Với MobileNetV4, các run hiện có dùng archive ảnh đã xử lý của dataset, đổi kích thước theo data configuration của mô hình và chuẩn hóa bằng mean/std ImageNet.
+
+Định vị ROI từ landmark và đưa ROI vào MobileNetV4 là hướng cải tiến dự kiến. Khi thực hiện, phương pháp chỉ được gọi là phát hiện/định vị và trích xuất ROI dựa trên MediaPipe; không gọi là phân đoạn theo từng điểm ảnh nếu không có segmentation mask riêng.
+
+\section{Chia dữ liệu}
+Dữ liệu được chia theo người ký hiệu (participant-disjoint), không phải random split từng ảnh. Sau canonicalization, tập huấn luyện gồm P1, P3--P8 và P10 (28.365 ảnh); tập xác thực là P2 (3.487 ảnh); tập kiểm thử là P9 (3.589 ảnh). Seed được cố định là 42. Tập xác thực được dùng cho lựa chọn checkpoint và siêu tham số. Tập kiểm thử được giữ nguyên trong quá trình phát triển và chỉ dùng sau khi model selection hoàn tất. Protocol này ngăn cùng SHA-256 xuất hiện ở nhiều split, nhưng chỉ có một participant ở validation/test nên chưa thay thế được leave-one-participant-out hoặc external test set.
+
+\section{Chỉ số đánh giá}
+Các chỉ số gồm Accuracy, Precision, Recall và F1-score theo lớp. Confusion matrix được sử dụng để quan sát các cặp lớp dễ nhầm, đặc biệt là hai hướng O$\rightarrow$0 và 0$\rightarrow$O. Với nguyên mẫu thời gian thực, nhóm ghi nhận độ trễ cho bước định vị bàn tay và bước suy luận mô hình, cùng FPS; các chỉ số này không được thay thế bằng nhận định định tính như ``nhạy'' hoặc ``ổn định''.
+
+\section{Kết luận chương}
+Chương này đã trình bày nền tảng CNN, học chuyển giao, dữ liệu và protocol tiền xử lý. Chương 3 mô tả cách các thành phần được kết hợp thành pipeline thực nghiệm.

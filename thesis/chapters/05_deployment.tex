@@ -1,0 +1,16 @@
+\chapter{HỆ THỐNG ỨNG DỤNG VÀ TRIỂN KHAI}
+
+\section{Yêu cầu hệ thống}
+Nguyên mẫu desktop Python/OpenCV là hạng mục triển khai tiếp theo. Khi được hoàn thành, hệ thống sẽ nhận từng khung hình từ webcam, dùng MediaPipe Hand Landmarker để định vị bàn tay và trích xuất ROI, chạy mô hình phân loại, rồi hiển thị nhãn dự đoán cùng trạng thái phát hiện. Khi không phát hiện được bàn tay hoặc ROI không hợp lệ, hệ thống cần thông báo trạng thái thay vì trả về nhãn dự đoán. Ứng dụng không thực hiện nhận dạng ngôn ngữ ký hiệu hoàn chỉnh hay phân tích chuỗi ký hiệu.
+
+\section{Pipeline suy luận}
+Pipeline thời gian thực dự kiến tái sử dụng các bước tiền xử lý của mô hình đã chọn. Mô hình chỉ được nạp một lần khi khởi động; từng khung hình được xử lý độc lập. Thời gian cho MediaPipe Hand Landmarker và thời gian suy luận mô hình cần được đo riêng để xác định nút thắt hiệu năng. Hệ thống chưa dùng mô hình theo thời gian, tracking liên khung hình hoặc cơ chế làm mượt nhãn.
+
+\section{Đánh giá thời gian thực}
+Các đại lượng cần ghi nhận gồm độ trễ trung bình, percentile độ trễ, FPS và mức sử dụng tài nguyên. Các kết quả được báo cáo cùng cấu hình thiết bị, độ phân giải khung hình và số khung hình đo.\todo{Bổ sung kết quả benchmark trên thiết bị chạy demo.}
+
+\section{Hạn chế triển khai}
+Điều kiện ánh sáng, góc bàn tay, nền ảnh và khả năng phát hiện của MediaPipe có thể làm giảm chất lượng hệ thống. Các hướng phát triển gồm giảm kích thước khung hình, tracking giữa các khung hình, TFLite hoặc quantization, và mô hình hóa chuỗi thời gian nếu mở rộng sang cử chỉ động.
+
+\section{Kết luận chương}
+Chương này mô tả nguyên mẫu realtime và các tiêu chí cần kiểm tra. Đây là phần gắn kết kết quả mô hình với ứng dụng thực tế.

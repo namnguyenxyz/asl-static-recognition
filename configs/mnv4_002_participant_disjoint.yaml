@@ -1,0 +1,32 @@
+experiment_id: mnv4-002-participant-disjoint-full-finetune
+dataset:
+  repo_id: hnam25/asl-hand-gesture-images
+  revision: 8f36ac00ece6dfce94410a980a839d93a912d366
+  processed_archive: ASL_HG_36000/ASL_Processed_Images.zip
+  canonical_image_count: 35441
+split:
+  method: participant-disjoint
+  train_participants: [P1, P3, P4, P5, P6, P7, P8, P10]
+  validation_participants: [P2]
+  test_participants: [P9]
+  train_count: 28365
+  validation_count: 3487
+  test_count: 3589
+  seed: 42
+model:
+  library: timm
+  model_name: mobilenetv4_conv_small.e2400_r224_in1k
+  model_repo: timm/mobilenetv4_conv_small.e2400_r224_in1k
+  model_revision: 331fb803779522b685cf942e15f914fb6741c1eb
+  initialization: ImageNet-1K
+  fine_tuning: all_layers
+training:
+  optimizer: AdamW
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  batch_size: 64
+  max_epochs: 15
+evaluation:
+  selection_split: validation
+  final_split: test
+  metrics: [accuracy, macro_precision, macro_recall, macro_f1, confusion_matrix]

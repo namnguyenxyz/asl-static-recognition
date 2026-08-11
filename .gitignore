@@ -16,6 +16,15 @@ scripts/colab_segment.py
 .secrets/
 .env
 cache-download/
+thesis/main.aux
+thesis/main.bbl
+thesis/main.blg
+thesis/main.lof
+thesis/main.log
+thesis/main.lot
+thesis/main.out
+thesis/main.pdf
+thesis/main.toc
 
 # Reusable metadata cache: small enough for Git and needed to skip dataset audit.
 !data/metadata/dataset_audit.csv

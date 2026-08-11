@@ -1,0 +1,80 @@
+\documentclass[12pt,a4paper]{report}
+
+% Bản nháp theo phương án KLTN đại học trong guideline; thay bằng class/template
+% chính thức của khoa khi được cung cấp.
+\usepackage[a4paper,top=3cm,bottom=3.5cm,left=3.5cm,right=2cm]{geometry}
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}
+\usepackage{polyglossia}
+\setdefaultlanguage{vietnamese}
+\linespread{1.5}
+\AtBeginDocument{\fontsize{13}{19.5}\selectfont}
+\setlength{\emergencystretch}{3em}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue}
+\pagestyle{plain}
+
+\newcommand{\todo}[1]{\textbf{[TODO: #1]}}
+\newcommand{\thesistitle}{Nhận dạng cử chỉ tay tĩnh ASL sử dụng phân đoạn bàn tay và học chuyển giao}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH\\
+\textbf{TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN}}\\[2cm]
+{\Large \textbf{ĐỒ ÁN TỐT NGHIỆP}}\\[1.5cm]
+{\LARGE \textbf{\thesistitle}}\\[2cm]
+\begin{flushleft}
+\large
+Sinh viên thực hiện: Nguyễn Hoàng Nam\\
+\hspace*{4.25cm}Trần Ngọc Sơn\\[0.5cm]
+Giảng viên hướng dẫn: \todo{Bổ sung tên giảng viên}
+\end{flushleft}
+\vfill
+{\large Thành phố Hồ Chí Minh, 2026}
+\end{titlepage}
+
+\chapter*{LỜI CAM ĐOAN}
+\addcontentsline{toc}{chapter}{LỜI CAM ĐOAN}
+Nhóm chúng tôi cam đoan nội dung đồ án này là kết quả nghiên cứu và triển khai của nhóm dưới sự hướng dẫn của giảng viên. Các kết quả, dữ liệu và tài liệu kế thừa từ nguồn khác đều được ghi rõ nguồn trích dẫn.\todo{Rà soát và ký theo mẫu chính thức.}
+
+\chapter*{TÓM TẮT}
+\addcontentsline{toc}{chapter}{TÓM TẮT}
+Đồ án trình bày các baseline tái lập cho bài toán phân loại 36 lớp ảnh bàn tay theo quy ước của tập dữ liệu ASL-HG, gồm A--Z và 0--9. Protocol hiện hành dùng archive ảnh đã xử lý, loại trùng lặp chính xác và chia dữ liệu theo người ký hiệu. Mô hình tốt nhất hiện có là MobileNetV4 Conv-S tiền huấn luyện trên ImageNet và tinh chỉnh toàn bộ tầng; các số liệu chỉ được diễn giải trong giới hạn split đã khóa. MediaPipe Hand Landmarker được đánh giá riêng ở baseline landmarks+SVM; hướng định vị ROI bằng MediaPipe kết hợp MobileNetV4 là công việc tiếp theo, không được báo cáo như kết quả đã hoàn thành. Với webcam, mọi mô hình tương lai vẫn chỉ phân loại từng khung hình độc lập và chưa mô hình hóa thông tin thời gian.\todo{Bổ sung benchmark realtime khi có artifact tương ứng.}
+
+\chapter*{DANH MỤC TỪ VIẾT TẮT}
+\addcontentsline{toc}{chapter}{DANH MỤC TỪ VIẾT TẮT}
+\begin{tabular}{>{\bfseries}p{3cm}p{10cm}}
+ASL & American Sign Language\\
+CNN & Convolutional Neural Network\\
+GPU & Graphics Processing Unit\\
+FPS & Frames Per Second\\
+\end{tabular}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+\input{chapters/00_introduction}
+\input{chapters/01_overview}
+\input{chapters/02_theory_data}
+\input{chapters/03_methodology}
+\input{chapters/04_results}
+\input{chapters/05_deployment}
+\input{chapters/06_conclusion}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\appendix
+\chapter{Thông số và hướng dẫn tái lập}
+Các hyperparameter, phiên bản thư viện, cấu hình phần cứng và lệnh chạy cuối cùng sẽ được cập nhật từ experiment log.\todo{Bổ sung sau khi chốt run thực nghiệm.}
+
+\input{chapters/appendix_plan}
+
+\end{document}

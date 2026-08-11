@@ -1,0 +1,37 @@
+\chapter*{MỞ ĐẦU}
+\addcontentsline{toc}{chapter}{MỞ ĐẦU}
+
+\section*{1. Lý do chọn đề tài}
+\addcontentsline{toc}{section}{1. Lý do chọn đề tài}
+American Sign Language (ASL) là một ngôn ngữ ký hiệu được sử dụng trong cộng đồng người khiếm thính. Nhận dạng lớp ảnh bàn tay là một bài toán thị giác máy tính có thể phục vụ nghiên cứu, học tập về phân loại ảnh và thử nghiệm tương tác người--máy. Trong phạm vi đồ án, mỗi ảnh hoặc khung hình đầu vào được gán một nhãn riêng theo quy ước của tập dữ liệu; hệ thống không được xem là hệ thống nhận dạng ngôn ngữ ký hiệu hoàn chỉnh hoặc hệ thống dịch giao tiếp.
+
+Hiệu quả của mô hình phụ thuộc vào chất lượng dữ liệu, vị trí bàn tay, điều kiện ánh sáng và mức độ tương đồng về hình dạng giữa các lớp. Đề tài sử dụng MediaPipe Hand Landmarker để phát hiện và định vị bàn tay, sau đó trích xuất vùng quan tâm (region of interest -- ROI) bằng khung bao dựa trên các điểm mốc. Phương pháp này không tạo mặt nạ phân đoạn theo từng điểm ảnh. Sự nhầm lẫn giữa hai lớp ảnh mang nhãn O và 0 được xem là một trường hợp cần phân tích riêng bằng dữ liệu đánh giá, không được giả định là lỗi phổ biến của mọi hệ thống trước đó.
+
+\section*{2. Mục tiêu nghiên cứu}
+\addcontentsline{toc}{section}{2. Mục tiêu nghiên cứu}
+Mục tiêu tổng quát của đồ án là xây dựng và đánh giá pipeline phân loại 36 lớp ảnh bàn tay theo cách biểu diễn của tập ASL-HG; pipeline có thể nhận ảnh tĩnh hoặc từng khung hình webcam độc lập. Các mục tiêu cụ thể gồm:
+\begin{itemize}
+    \item xây dựng quy trình tái lập được từ dữ liệu đã khóa phiên bản, kiểm kê dữ liệu, loại trùng lặp chính xác, chia dữ liệu theo người ký hiệu, huấn luyện và đánh giá;
+    \item đánh giá các baseline CNN từ đầu, MediaPipe landmarks kết hợp SVM, và MobileNetV4 Conv-S tiền huấn luyện trên ImageNet ở hai chế độ backbone đóng băng và tinh chỉnh toàn bộ;
+    \item đánh giá mô hình bằng Accuracy, Precision, Recall, F1-score theo lớp, confusion matrix và các chỉ số nhầm lẫn theo hai hướng O$\rightarrow$0, 0$\rightarrow$O;
+    \item lựa chọn mô hình dựa trên validation set; chỉ sử dụng test set đã khóa cho đánh giá cuối cùng;
+    \item xác định hướng mở rộng MediaPipe-guided crop kết hợp MobileNetV4 và nguyên mẫu desktop qua webcam; các hạng mục này chỉ được báo cáo định lượng khi có artifact độ trễ/FPS tương ứng.
+\end{itemize}
+
+\section*{3. Đối tượng và phạm vi nghiên cứu}
+\addcontentsline{toc}{section}{3. Đối tượng và phạm vi nghiên cứu}
+Đối tượng nghiên cứu là 36.000 ảnh thuộc 36 lớp A--Z và 0--9 của tập ASL-HG \cite{asl-hg-original}. Repository Hugging Face của nhóm là nguồn phân phối dùng trong quá trình tái lập \cite{asl-hg-repo}. Cụm ``36 lớp ảnh'' phản ánh quy ước nhãn của dataset, không khẳng định toàn bộ các chữ cái ASL đều là cử chỉ tĩnh về mặt ngôn ngữ học: fingerspelling của J và Z có thành phần chuyển động.
+
+Đề tài xét ảnh tĩnh một bàn tay hoặc từng khung hình webcam độc lập. Webcam cung cấp chuỗi khung hình, nhưng mô hình hiện tại không mô hình hóa thông tin thời gian giữa các khung hình; vì vậy, nhận dạng cử chỉ động, chuỗi ký hiệu, câu và diễn giải ngữ nghĩa nằm ngoài phạm vi nghiên cứu.
+
+\section*{4. Phương pháp nghiên cứu tổng quát}
+\addcontentsline{toc}{section}{4. Phương pháp nghiên cứu tổng quát}
+Đồ án áp dụng chiến lược ``Baseline First, Improve Later''. Trước hết, nhóm xây dựng các baseline tái lập từ archive ảnh đã xử lý của dataset đến báo cáo đánh giá. Sau đó, confusion matrix, các chỉ số theo lớp và log thực nghiệm được dùng để lựa chọn cải tiến về dữ liệu, mô hình và tốc độ suy luận. Các notebook được thực thi trên Google Colab thông qua Colab CLI; cấu hình, seed, checkpoint và artifact được lưu để hỗ trợ tái lập.
+
+\section*{5. Đóng góp dự kiến}
+\addcontentsline{toc}{section}{5. Đóng góp dự kiến}
+Đóng góp dự kiến của đồ án được giới hạn ở các nội dung có thể kiểm chứng: protocol participant-disjoint có loại trùng lặp, các baseline tái lập được, quy trình đánh giá có phân tích riêng hai lớp O/0, và hướng MediaPipe-guided crop kết hợp MobileNetV4. Nguyên mẫu desktop suy luận theo webcam chỉ được xem là đóng góp khi có artifact triển khai và benchmark tương ứng.\todo{Chỉ giữ lại các đóng góp đã được chứng minh bằng kết quả và artifact sau khi hoàn tất thực nghiệm.}
+
+\section*{6. Bố cục đồ án}
+\addcontentsline{toc}{section}{6. Bố cục đồ án}
+Chương 1 trình bày tổng quan bài toán và các nghiên cứu liên quan. Chương 2 giới thiệu cơ sở lý thuyết, dữ liệu và các chỉ số đánh giá. Chương 3 mô tả pipeline, mô hình và thiết kế thực nghiệm. Chương 4 trình bày kết quả và bàn luận. Chương 5 mô tả nguyên mẫu triển khai thời gian thực. Chương 6 tổng kết, nêu hạn chế và hướng phát triển.

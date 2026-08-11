@@ -18,7 +18,7 @@ Các cache do pipeline tạo được publish trong cùng dataset repo. Cache cr
 - `processed_hand_crops.zip` chứa toàn bộ crop đầu vào classifier;
 - cache two-hand mới chứa `landmark_manifest.parquet`, `landmark_status.csv` và `detection_summary.json`; nó lưu 130D landmark feature cùng trạng thái detect để không phải chạy MediaPipe lại.
 
-`01_audit_cache_publish.ipynb` tạo/publish cache. `02_train_from_published_cache.ipynb` xác minh raw archive SHA-256 trước khi restore cache; nếu không khớp, nó dừng và yêu cầu rebuild cache để tránh reuse dữ liệu sai. `ASL_End_to_End_Colab.ipynb` vẫn là pipeline rebuild đầy đủ.
+`01_audit_only_publish.ipynb` tạo/publish metadata audit cho revision mới. Các notebook tái lập `08`--`11` tải archive và artifact bằng revision khóa, kiểm tra checksum trước khi tái dựng canonical split.
 
 ## Quy ước local
 
@@ -30,6 +30,6 @@ data/raw/O/*.jpg
 data/raw/Z/*.jpg
 ```
 
-Không thay đổi dữ liệu gốc. `01_dataset_audit.ipynb` tạo `data/metadata/dataset_audit.csv`, thống kê số ảnh/lớp và phát hiện file không đọc được hoặc ảnh có SHA-256 trùng. Sau đó `02_hand_segmentation.ipynb` tạo dữ liệu crop riêng trong `data/processed/`.
+Không thay đổi dữ liệu gốc. Metadata audit được tạo bởi `01_audit_only_publish.ipynb`; các run tái lập dùng canonical representative theo SHA-256 để ngăn leakage do ảnh trùng. Archive ảnh đã xử lý của dataset được dùng làm đầu vào cho baseline ảnh hiện hành.
 
 Nếu dataset là bản sao hoặc bản biến đổi từ một nguồn học thuật khác, bổ sung citation/license của nguồn đó trong báo cáo trước khi nộp.

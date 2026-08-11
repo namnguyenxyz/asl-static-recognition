@@ -1,0 +1,39 @@
+\chapter{KẾT QUẢ VÀ BÀN LUẬN}
+
+\section{Môi trường thực nghiệm}
+Thí nghiệm được thực thi trên Google Colab thông qua Colab CLI. Mã nguồn notebook, cấu hình và artifact được quản lý trong repository của dự án.\todo{Bổ sung loại GPU, phiên bản TensorFlow/MediaPipe, thời điểm run và experiment ID.}
+
+\section{Kết quả baseline}
+Sau khi checkpoint và siêu tham số được chọn bằng validation P2, các baseline được đánh giá trên test P9. Bảng \ref{tab:baseline-results} tổng hợp các artifact đã tái lập. Các con số chỉ áp dụng cho protocol participant-disjoint đã mô tả ở Chương 2.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Kết quả baseline trên tập kiểm thử}
+\label{tab:baseline-results}
+\begin{tabular}{p{4.6cm}rrrr}
+\toprule
+Mô hình & Accuracy & Precision & Recall & F1-score\\
+\midrule
+CNN từ đầu (\texttt{cnn-001}) & 83,25\% & 79,57\% & 83,31\% & 80,10\%\\
+MobileNetV4 Conv-S đóng băng (\texttt{mnv4-001}) & 79,88\% & 77,65\% & 79,94\% & 77,29\%\\
+MediaPipe landmarks + RBF SVM (\texttt{mp-svm-001}) & 90,53\% & 87,04\% & 90,52\% & 88,03\%\\
+MobileNetV4 Conv-S full fine-tuning (\texttt{mnv4-002}) & \textbf{94,51\%} & \textbf{94,05\%} & \textbf{94,53\%} & \textbf{93,38\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{So sánh các mô hình}
+MobileNetV4 full fine-tuning là baseline ảnh mạnh nhất hiện có. So với CNN từ đầu, test accuracy tăng 11,26 điểm phần trăm; so với MediaPipe landmarks+SVM, test accuracy tăng 3,98 điểm phần trăm. MobileNetV4 đóng băng toàn bộ mạng nền không vượt CNN từ đầu trong protocol này. Kết quả cho thấy lợi ích của trọng số ImageNet phụ thuộc vào chiến lược tinh chỉnh, không cho phép kết luận về mọi dataset hoặc mọi phương án transfer learning.
+
+\section{Phân tích confusion matrix và cặp O/0}
+Confusion matrix được dùng để xác định các cặp lớp có lỗi cao. Các baseline \texttt{mnv4-001}, \texttt{mp-svm-001} và \texttt{mnv4-002} đều có Recall 100\% ở hai lớp O và 0, không có nhầm lẫn O$\rightarrow$0 hoặc 0$\rightarrow$O trên test P9. Ngược lại, \texttt{cnn-001} có Recall lớp 0 bằng 0\%. Phân tích này chỉ là đánh giá trên split P9, không được dùng để khái quát về mọi hệ thống ASL.\todo{Chèn confusion matrix từ artifact \texttt{mnv4-002}.}
+
+\section{Phân tích lỗi}
+Các lỗi cần được phân nhóm theo nguyên nhân quan sát được: không phát hiện bàn tay, ảnh mờ hoặc chất lượng kém, nền/ánh sáng, ROI không phù hợp và hình dạng bàn tay tương tự. Không được suy luận nguyên nhân chỉ từ một ảnh nếu chưa kiểm tra mẫu lỗi.
+
+\section{Bàn luận}
+Kết quả hiện có trả lời các mục tiêu về phân loại ảnh, confusion matrix và O/0. Chúng chưa trả lời mục tiêu triển khai thời gian thực vì chưa có benchmark latency/FPS trên phần cứng xác định. Validation và test chỉ gồm một participant mỗi split, nên chênh lệch giữa chúng có thể phản ánh khác biệt người ký hiệu; kết quả không thay thế leave-one-participant-out hoặc external evaluation. Kết quả quan sát được phải được tách khỏi diễn giải của nhóm.
+
+\section{Kết luận chương}
+Chương này đã báo cáo các baseline có artifact tái lập. Các thí nghiệm MediaPipe-guided crop kết hợp MobileNetV4, benchmark webcam và đánh giá tổng quát hóa rộng hơn vẫn là công việc tiếp theo.
