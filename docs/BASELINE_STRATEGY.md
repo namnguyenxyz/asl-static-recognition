@@ -11,16 +11,16 @@ Bốn baseline đã hoàn tất theo cùng protocol và không được train l�
 
 ## Phương pháp đề xuất tiếp theo
 
-`mp-mnv4-001`: **MediaPipe Hand Landmarker → two-hand-guided crop/normalization → MobileNetV4 Conv-S full fine-tuning**.
+`mp-mnv4-003`: **raw image → MediaPipe Hand Landmarker ROI (một tay) → MobileNetV4 Conv-S full fine-tuning**. Runner là `scripts/run_mediapipe_transfer.py`.
 
-Mục tiêu không chỉ là tối đa accuracy mà còn kiểm tra MediaPipe có mang lại cải thiện thực sự so với `mnv4-002` hay không. Dùng landmark cache versioned hiện có, cùng exact canonical set và participant split; tuyệt đối không đổi test P9.
+Mỗi canonical raw image được crop bằng MediaPipe với padding cố định 0,18. Nếu không phát hiện được tay hoặc ROI không hợp lệ, runner dùng nguyên ảnh raw làm fallback và ghi lại trạng thái theo split. Mục tiêu là kiểm tra MediaPipe có mang lại cải thiện thực sự so với `mnv4-002` hay không, dùng đúng canonical set và participant split; tuyệt đối không đổi test P9.
 
 ## Ablation tối thiểu
 
-- Image gốc (`mnv4-002`) so với MediaPipe-guided crop.
-- One-hand crop so với two-hand crop/union crop.
+- Archive processed hiện hành (`mnv4-002`) so với raw-image MediaPipe ROI (`mp-mnv4-003`).
+- One-hand ROI hiện hành so với two-hand/union crop nếu mở rộng sau này.
 - Landmark-only (`mp-svm-001`) so với image-only (`mnv4-002`) so với phương pháp đề xuất.
-- Detection coverage và fallback: nếu không detect được tay, dùng image gốc theo một policy cố định, report số lượng fallback theo từng split.
+- Detection coverage và fallback: nếu không detect được tay, dùng raw image theo policy cố định và report số lượng fallback theo từng split.
 
 ## Tiêu chí báo cáo
 

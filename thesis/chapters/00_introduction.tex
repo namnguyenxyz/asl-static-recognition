@@ -5,7 +5,7 @@
 \addcontentsline{toc}{section}{1. Lý do chọn đề tài}
 American Sign Language (ASL) là một ngôn ngữ ký hiệu được sử dụng trong cộng đồng người khiếm thính. Nhận dạng lớp ảnh bàn tay là một bài toán thị giác máy tính có thể phục vụ nghiên cứu, học tập về phân loại ảnh và thử nghiệm tương tác người--máy. Trong phạm vi đồ án, mỗi ảnh hoặc khung hình đầu vào được gán một nhãn riêng theo quy ước của tập dữ liệu; hệ thống không được xem là hệ thống nhận dạng ngôn ngữ ký hiệu hoàn chỉnh hoặc hệ thống dịch giao tiếp.
 
-Hiệu quả của mô hình phụ thuộc vào chất lượng dữ liệu, vị trí bàn tay, điều kiện ánh sáng và mức độ tương đồng về hình dạng giữa các lớp. Đề tài sử dụng MediaPipe Hand Landmarker để phát hiện và định vị bàn tay, sau đó trích xuất vùng quan tâm (region of interest -- ROI) bằng khung bao dựa trên các điểm mốc. Phương pháp này không tạo mặt nạ phân đoạn theo từng điểm ảnh. Sự nhầm lẫn giữa hai lớp ảnh mang nhãn O và 0 được xem là một trường hợp cần phân tích riêng bằng dữ liệu đánh giá, không được giả định là lỗi phổ biến của mọi hệ thống trước đó.
+Hiệu quả của mô hình phụ thuộc vào chất lượng dữ liệu, vị trí bàn tay, điều kiện ánh sáng và mức độ tương đồng về hình dạng giữa các lớp. Các baseline ảnh hiện tại dùng archive ảnh đã xử lý của ASL-HG; chúng không chạy MediaPipe trong khi huấn luyện. MediaPipe Hand Landmarker được đánh giá riêng ở baseline landmarks+SVM. Một pipeline ROI dựa trên landmark, nếu được mở rộng, chỉ là định vị và trích xuất vùng quan tâm (region of interest -- ROI), không phải phân đoạn theo từng điểm ảnh. Sự nhầm lẫn giữa hai lớp ảnh mang nhãn O và 0 được phân tích riêng bằng dữ liệu đánh giá, không được giả định là lỗi phổ biến của mọi hệ thống trước đó.
 
 \section*{2. Mục tiêu nghiên cứu}
 \addcontentsline{toc}{section}{2. Mục tiêu nghiên cứu}
@@ -28,9 +28,9 @@ Mục tiêu tổng quát của đồ án là xây dựng và đánh giá pipelin
 \addcontentsline{toc}{section}{4. Phương pháp nghiên cứu tổng quát}
 Đồ án áp dụng chiến lược ``Baseline First, Improve Later''. Trước hết, nhóm xây dựng các baseline tái lập từ archive ảnh đã xử lý của dataset đến báo cáo đánh giá. Sau đó, confusion matrix, các chỉ số theo lớp và log thực nghiệm được dùng để lựa chọn cải tiến về dữ liệu, mô hình và tốc độ suy luận. Các notebook được thực thi trên Google Colab thông qua Colab CLI; cấu hình, seed, checkpoint và artifact được lưu để hỗ trợ tái lập.
 
-\section*{5. Đóng góp dự kiến}
-\addcontentsline{toc}{section}{5. Đóng góp dự kiến}
-Đóng góp dự kiến của đồ án được giới hạn ở các nội dung có thể kiểm chứng: protocol participant-disjoint có loại trùng lặp, các baseline tái lập được, quy trình đánh giá có phân tích riêng hai lớp O/0, và hướng MediaPipe-guided crop kết hợp MobileNetV4. Nguyên mẫu desktop suy luận theo webcam chỉ được xem là đóng góp khi có artifact triển khai và benchmark tương ứng.\todo{Chỉ giữ lại các đóng góp đã được chứng minh bằng kết quả và artifact sau khi hoàn tất thực nghiệm.}
+\section*{5. Đóng góp}
+\addcontentsline{toc}{section}{5. Đóng góp}
+Các đóng góp có thể kiểm chứng của đồ án là: protocol participant-disjoint có loại trùng lặp chính xác theo SHA-256; bốn baseline có artifact tái lập được; so sánh CNN, landmark+SVM và MobileNetV4 ở chế độ đóng băng/tinh chỉnh toàn bộ; và phân tích riêng hai lớp O/0. Đóng góp thực nghiệm được giới hạn ở các artifact này. ROI MediaPipe kết hợp MobileNetV4 và nguyên mẫu desktop chưa được xem là đóng góp hoàn tất vì chưa có benchmark và artifact tích hợp tương ứng.
 
 \section*{6. Bố cục đồ án}
 \addcontentsline{toc}{section}{6. Bố cục đồ án}

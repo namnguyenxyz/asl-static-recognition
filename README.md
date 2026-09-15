@@ -11,9 +11,10 @@ Mọi baseline dưới đây dùng cùng protocol: archive dữ liệu đã khó
 | `cnn-001` | CNN from scratch | 72.10% | 83.25% | 80.10% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-cnn-baseline) |
 | `mnv4-001` | MobileNetV4 Conv-S ImageNet, frozen | 66.42% | 79.88% | 77.29% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mobilenetv4-baseline) |
 | `mp-svm-001` | MediaPipe two-hand landmarks + RBF SVM | 95.01% | 90.53% | 88.03% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mediapipe-svm-baseline) |
-| `mnv4-002` | MobileNetV4 Conv-S ImageNet, full fine-tuning | 92.11% | **94.51%** | **93.38%** | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mobilenetv4-finetune-baseline) |
+| `mnv4-002` | MobileNetV4 Conv-S ImageNet, full fine-tuning trên archive processed | 92.11% | 94.51% | 93.38% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mobilenetv4-finetune-baseline) |
+| `mp-mnv4-003` | **Raw image → MediaPipe ROI → MobileNetV4 Conv-S full fine-tuning** | **95.18%** | **96.66%** | **95.75%** | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-transfer) |
 
-`mnv4-002` là image baseline mạnh nhất hiện tại. Báo cáo chi tiết, limitations và hướng phương pháp đề xuất nằm trong [báo cáo tái lập](docs/THESIS_REPRODUCIBILITY_REPORT.md).
+`mp-mnv4-003` là mô hình được chọn. Nó crop ROI từ raw image canonical bằng MediaPipe Hand Landmarker (padding 0,18), dùng raw image fallback khi không detect được tay, rồi fine-tune toàn bộ MobileNetV4. Trên test P9, detection coverage là 100% (3.589/3.589); train có 29/28.365 fallback raw. Kết quả chỉ áp dụng cho protocol participant-disjoint đã khóa. Báo cáo chi tiết nằm trong [báo cáo tái lập](docs/THESIS_REPRODUCIBILITY_REPORT.md).
 
 ## Tái lập nhanh
 
@@ -29,9 +30,12 @@ Mọi baseline dưới đây dùng cùng protocol: archive dữ liệu đã khó
    - `notebooks/08_cnn_baseline_reproducible.ipynb`: `cnn-001`.
    - `notebooks/09_mobilenetv4_timm_baseline_reproducible.ipynb`: `mnv4-001`.
    - `notebooks/10_mediapipe_svm_baseline_reproducible.ipynb`: `mp-svm-001`.
-   - `notebooks/11_mobilenetv4_timm_finetune_reproducible.ipynb`: `mnv4-002`.
+   - `notebooks/11_mobilenetv4_timm_finetune_reproducible.ipynb`: `mnv4-002`, mô hình được chọn.
+   - `notebooks/12_mediapipe_crop_mobilenetv4_finetune_reproducible.ipynb`: thí nghiệm crop cache MediaPipe.
+   - `notebooks/13_progressive_transfer_mobilenetv4_reproducible.ipynb`: thí nghiệm progressive transfer.
+   - `scripts/run_mediapipe_transfer.py`: `mp-mnv4-003`, mô hình được chọn; crop ROI từ raw image bằng MediaPipe rồi fine-tune MobileNetV4; xem [runbook](docs/MEDIAPIPE_TRANSFER_RUN.md).
 
-   Notebook `11` in progress theo batch/epoch, ETA và ghi `training_progress.csv` sau mỗi epoch. Hướng dẫn vận hành session nằm ở [Google Colab CLI runbook](docs/GOOGLE_COLAB_CLI.md).
+Các notebook là mã tái lập; chúng không chứa output thực thi được commit. Số liệu chính thức phải đọc từ artifact bất biến và experiment log. Hướng dẫn vận hành session nằm ở [Google Colab CLI runbook](docs/GOOGLE_COLAB_CLI.md).
 
 3. Dùng artifacts đã publish thay vì train lại. Mỗi model repository chứa checkpoint, metrics, split/config manifest, environment và notebook tương ứng. Landmark cache tái dùng của MediaPipe nằm tại [dataset repository](https://huggingface.co/datasets/hnam25/asl-hand-gesture-images/tree/main/derived/mediapipe-two-hand-landmarks-v1).
 

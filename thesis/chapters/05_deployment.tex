@@ -1,13 +1,13 @@
 \chapter{HỆ THỐNG ỨNG DỤNG VÀ TRIỂN KHAI}
 
 \section{Yêu cầu hệ thống}
-Nguyên mẫu desktop Python/OpenCV là hạng mục triển khai tiếp theo. Khi được hoàn thành, hệ thống sẽ nhận từng khung hình từ webcam, dùng MediaPipe Hand Landmarker để định vị bàn tay và trích xuất ROI, chạy mô hình phân loại, rồi hiển thị nhãn dự đoán cùng trạng thái phát hiện. Khi không phát hiện được bàn tay hoặc ROI không hợp lệ, hệ thống cần thông báo trạng thái thay vì trả về nhãn dự đoán. Ứng dụng không thực hiện nhận dạng ngôn ngữ ký hiệu hoàn chỉnh hay phân tích chuỗi ký hiệu.
+Repository có nguyên mẫu desktop Python/OpenCV nhận từng khung hình webcam, dùng MediaPipe Hand Landmarker để trích xuất ROI và hiển thị nhãn hoặc trạng thái không phát hiện tay. Tuy nhiên, mã demo hiện dùng TensorFlow và cấu hình mặc định \texttt{configs/baseline.yaml}, trong khi mô hình được chọn \texttt{mnv4-002} được huấn luyện bằng PyTorch/timm và repository chỉ version hóa config \texttt{mnv4\_002\_participant\_disjoint.yaml}. Vì vậy, nguyên mẫu chưa là bằng chứng cho việc suy luận tích hợp checkpoint được chọn. Ứng dụng cũng không thực hiện nhận dạng ngôn ngữ ký hiệu hoàn chỉnh hay phân tích chuỗi ký hiệu.
 
 \section{Pipeline suy luận}
-Pipeline thời gian thực dự kiến tái sử dụng các bước tiền xử lý của mô hình đã chọn. Mô hình chỉ được nạp một lần khi khởi động; từng khung hình được xử lý độc lập. Thời gian cho MediaPipe Hand Landmarker và thời gian suy luận mô hình cần được đo riêng để xác định nút thắt hiệu năng. Hệ thống chưa dùng mô hình theo thời gian, tracking liên khung hình hoặc cơ chế làm mượt nhãn.
+Một pipeline realtime hợp lệ phải dùng đúng checkpoint, mapping nhãn và tiền xử lý của \texttt{mnv4-002}; đồng thời nạp mô hình một lần khi khởi động. Từng khung hình được xử lý độc lập. Repository chưa có artifact đo riêng thời gian MediaPipe và thời gian suy luận mô hình, và chưa có tracking liên khung hình hoặc cơ chế làm mượt nhãn.
 
 \section{Đánh giá thời gian thực}
-Các đại lượng cần ghi nhận gồm độ trễ trung bình, percentile độ trễ, FPS và mức sử dụng tài nguyên. Các kết quả được báo cáo cùng cấu hình thiết bị, độ phân giải khung hình và số khung hình đo.\todo{Bổ sung kết quả benchmark trên thiết bị chạy demo.}
+Chưa có benchmark realtime được công bố. Do đó, đồ án không tuyên bố FPS, độ trễ hay mức sử dụng tài nguyên. Một benchmark bổ sung cần báo cáo độ trễ trung bình, p50/p95, FPS, cấu hình thiết bị, độ phân giải và số khung hình đo.
 
 \section{Hạn chế triển khai}
 Điều kiện ánh sáng, góc bàn tay, nền ảnh và khả năng phát hiện của MediaPipe có thể làm giảm chất lượng hệ thống. Các hướng phát triển gồm giảm kích thước khung hình, tracking giữa các khung hình, TFLite hoặc quantization, và mô hình hóa chuỗi thời gian nếu mở rộng sang cử chỉ động.

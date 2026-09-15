@@ -1,26 +1,24 @@
-\chapter{Kế hoạch thực hiện}
+\chapter{Trạng thái thực hiện và công việc còn lại}
 
-Thời gian thực hiện dự kiến từ ngày 20/07/2026 đến ngày 23/09/2026, tương đương chín tuần và ba ngày. Kế hoạch dưới đây dùng thuật ngữ thống nhất và giữ tập kiểm thử cho đánh giá cuối cùng.
+Bảng này phản ánh trạng thái có thể kiểm chứng từ repository và artifact đã công bố, không phải lịch dự kiến. Kết quả định lượng chỉ được xem là hoàn tất khi có revision dữ liệu, split, checkpoint và metrics có thể truy vết.
 
 \begin{table}[ht]
 \centering
 \small
-\caption{Kế hoạch thực hiện dự kiến}
-\label{tab:project-plan}
-\begin{tabular}{p{2.1cm}p{7.0cm}p{4.0cm}}
+\caption{Trạng thái các hạng mục của đồ án}
+\label{tab:project-status}
+\begin{tabular}{p{4.6cm}p{2.6cm}p{6.0cm}}
 \toprule
-Thời gian & Công việc & Sản phẩm/tiêu chí liên quan\\
+Hạng mục & Trạng thái & Bằng chứng hoặc giới hạn\\
 \midrule
-20--26/07 & Khảo sát tài liệu; tải, kiểm tra tính toàn vẹn và audit ASL-HG; hoàn thiện đề cương. & Báo cáo audit, citation dataset, đề cương.\\
-27/07--09/08 & Xây dựng MediaPipe Hand Landmarker để định vị bàn tay và trích xuất ROI; ghi manifest các trường hợp không phát hiện/ROI không hợp lệ. & Cache ROI và failure manifest.\\
-10--16/08 & Chuẩn hóa ảnh; tạo split phân tầng train/validation/test 80/10/10; kiểm tra leakage. & Manifest split tái lập.\\
-17--30/08 & Huấn luyện các baseline CNN, MobileNetV4 Conv-S đóng băng và MediaPipe landmarks+SVM; chọn checkpoint bằng validation. & Checkpoint, learning curves, log và artifact tái lập.\\
-31/08--06/09 & Fine-tuning toàn bộ MobileNetV4 Conv-S; mọi lựa chọn dùng validation, không dùng test. & Bảng so sánh validation, mô hình ứng viên.\\
-07--13/09 & Xây dựng nguyên mẫu desktop OpenCV; đo độ trễ/FPS và xử lý trạng thái không phát hiện bàn tay. & Ứng dụng demo, log latency/FPS.\\
-14--20/09 & Chốt mô hình theo validation, đánh giá cuối cùng một lần trên test; lập confusion matrix và phân tích O/0; viết báo cáo. & Metrics test, confusion matrix, bản thảo báo cáo.\\
-21--23/09 & Rà soát kỹ thuật, báo cáo, tài liệu tham khảo và chuẩn bị bảo vệ. & Bản nộp, slide và video demo.\\
+Audit, deduplication và participant split & Hoàn tất & Revision dữ liệu khóa; 36.000 ảnh được canonicalize còn 35.441 ảnh; split P1--P10 được lưu trong artifact.\\
+CNN, MobileNetV4 frozen, landmark+SVM và MobileNetV4 fine-tuning & Hoàn tất & Có metrics, checkpoint và artifact bất biến; \texttt{mnv4-002} là mô hình được chọn.\\
+Progressive transfer & Exploratory & Có số liệu trong tổng hợp thực nghiệm nhưng chưa có artifact bất biến được liệt kê; không dùng làm bằng chứng chính.\\
+ROI MediaPipe kết hợp MobileNetV4 & Chưa chứng minh & Có mã/notebook hướng tới crop, nhưng chưa có ablation có artifact cho thấy cải thiện so với \texttt{mnv4-002}.\\
+Webcam/realtime tích hợp mô hình được chọn & Chưa hoàn tất & Có nguyên mẫu OpenCV, nhưng chưa khớp runtime/checkpoint \texttt{mnv4-002} và chưa có benchmark.\\
+Đánh giá tổng quát hóa rộng hơn & Chưa hoàn tất & Chưa có leave-one-participant-out hoặc external test set.\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Mỗi mục tiêu trong Mở đầu được nối với một artifact hoặc chỉ số: pipeline tái lập được kiểm tra bằng manifest/config; mô hình được đánh giá bằng Accuracy, Precision, Recall, F1-score và confusion matrix; O/0 được kiểm tra theo hai hướng nhầm lẫn; nguyên mẫu desktop được đo bằng độ trễ và FPS.
+Các công việc ưu tiên tiếp theo là: (i) leave-one-participant-out hoặc external evaluation; (ii) ablation ảnh gốc/crop và policy fallback; (iii) error analysis theo lớp; và (iv) inference realtime dùng đúng checkpoint \texttt{mnv4-002} kèm benchmark latency/FPS.

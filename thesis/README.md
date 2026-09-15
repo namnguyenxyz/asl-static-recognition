@@ -1,6 +1,6 @@
 # Bộ khung LaTeX luận văn/KLTN ASL
 
-Bộ khung này là bản nháp nội dung đầu tiên cho đề tài nhận dạng cử chỉ tay tĩnh ASL. Hiện đang dùng phương án 5 chương dành cho đồ án tốt nghiệp; cần thay class, bìa và thông số cuối cùng khi khoa cung cấp template chính thức.
+Bản thảo này phản ánh các kết quả đã có artifact của đồ án nhận dạng 36 lớp ảnh bàn tay theo quy ước ASL-HG. Hiện gồm sáu chương, dùng class LaTeX tạm thời; cần thay class, bìa và thông số hành chính khi khoa cung cấp template chính thức.
 
 ## Biên dịch
 
@@ -19,5 +19,6 @@ Nếu môi trường chưa có Times New Roman, file `main.tex` tạm dùng TeX 
 ## Nguyên tắc nội dung
 
 - Chỉ dùng số liệu đã xuất từ notebook hoặc artifact có thể truy vết.
-- Các kết quả chưa có được đánh dấu `TODO`.
+- Không tuyên bố MediaPipe ROI do nhóm tạo hoặc realtime benchmark là kết quả đã hoàn thành khi chưa có artifact tương ứng.
+- Các thông tin hành chính chưa được cung cấp (ví dụ tên giảng viên hướng dẫn) được để trống, không suy đoán.
 - Mục/tiểu mục sẽ điều chỉnh sau khi có template chính thức.
