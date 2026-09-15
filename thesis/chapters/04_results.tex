@@ -25,10 +25,17 @@ MediaPipe ROI + MobileNetV4 (\texttt{mp-mnv4-003}) & \textbf{96,66\%} & \textbf{
 \end{table}
 
 \section{So sánh các mô hình}
-MobileNetV4 full fine-tuning là baseline ảnh mạnh nhất hiện có. So với CNN từ đầu, test accuracy tăng 11,26 điểm phần trăm; so với MediaPipe landmarks+SVM, test accuracy tăng 3,98 điểm phần trăm. MobileNetV4 đóng băng toàn bộ mạng nền không vượt CNN từ đầu trong protocol này. Kết quả cho thấy lợi ích của trọng số ImageNet phụ thuộc vào chiến lược tinh chỉnh, không cho phép kết luận về mọi dataset hoặc mọi phương án transfer learning.
+\texttt{mp-mnv4-003} là mô hình được chọn. So với \texttt{mnv4-002}, test accuracy tăng 2,15 điểm phần trăm và Macro-F1 tăng 2,37 điểm. Run dùng raw image canonical, MediaPipe ROI một tay (padding 0,18) và raw fallback; coverage ở validation/test là 100\%. Kết luận chỉ áp dụng cho protocol đã khóa.
 
 \section{Phân tích confusion matrix và cặp O/0}
-Confusion matrix và classification report đầy đủ được lưu trong artifact của từng baseline. Trên test P9, \texttt{mnv4-001}, \texttt{mp-svm-001} và \texttt{mnv4-002} đều có Recall 100\% ở hai lớp O và 0, không có nhầm lẫn O$\rightarrow$0 hoặc 0$\rightarrow$O; \texttt{cnn-001} có Recall lớp 0 bằng 0\%. Bản thảo hiện chưa nhúng hình confusion matrix; vì vậy không đưa ra diễn giải định lượng về các cặp lỗi khác ngoài số liệu đã xác minh. Phân tích O/0 chỉ áp dụng cho split P9.
+Trên P9, \texttt{mp-mnv4-003} có Recall 100\% ở cả O và 0, không có nhầm O$\rightarrow$0 hoặc 0$\rightarrow$O. Confusion matrix và classification report đầy đủ được publish trong artifact.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/mp_mnv4_003_confusion_matrix.png}
+\caption{Confusion matrix của \texttt{mp-mnv4-003} trên test P9.}
+\label{fig:mp-mnv4-003-confusion}
+\end{figure}
 
 \section{Phân tích lỗi}
 Error analysis định tính theo nguyên nhân chưa được hoàn tất trong artifact hiện có. Vì vậy, đồ án chỉ báo cáo các chỉ số theo lớp và O/0 đã xác minh, không quy nguyên nhân lỗi cho các yếu tố như mờ, nền hoặc ROI khi chưa kiểm tra mẫu lỗi có hệ thống.
@@ -37,4 +44,4 @@ Error analysis định tính theo nguyên nhân chưa được hoàn tất trong
 Kết quả hiện có trả lời các mục tiêu về phân loại ảnh, confusion matrix và O/0. Chúng chưa trả lời mục tiêu triển khai thời gian thực vì chưa có benchmark latency/FPS trên phần cứng xác định. Validation và test chỉ gồm một participant mỗi split, nên chênh lệch giữa chúng có thể phản ánh khác biệt người ký hiệu; kết quả không thay thế leave-one-participant-out hoặc external evaluation. Kết quả quan sát được phải được tách khỏi diễn giải của nhóm.
 
 \section{Kết luận chương}
-Chương này đã báo cáo các baseline có artifact tái lập. Các thí nghiệm MediaPipe-guided crop kết hợp MobileNetV4, benchmark webcam và đánh giá tổng quát hóa rộng hơn vẫn là công việc tiếp theo.
+Chương này đã báo cáo các baseline có artifact tái lập, gồm \texttt{mp-mnv4-003} là pipeline MediaPipe ROI + MobileNetV4 được chọn. Benchmark webcam và đánh giá tổng quát hóa rộng hơn vẫn là công việc tiếp theo.

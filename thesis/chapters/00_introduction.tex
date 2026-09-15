@@ -15,7 +15,7 @@ Mục tiêu tổng quát của đồ án là xây dựng và đánh giá pipelin
     \item đánh giá các baseline CNN từ đầu, MediaPipe landmarks kết hợp SVM, và MobileNetV4 Conv-S tiền huấn luyện trên ImageNet ở hai chế độ backbone đóng băng và tinh chỉnh toàn bộ;
     \item đánh giá mô hình bằng Accuracy, Precision, Recall, F1-score theo lớp, confusion matrix và các chỉ số nhầm lẫn theo hai hướng O$\rightarrow$0, 0$\rightarrow$O;
     \item lựa chọn mô hình dựa trên validation set; chỉ sử dụng test set đã khóa cho đánh giá cuối cùng;
-    \item xác định hướng mở rộng MediaPipe-guided crop kết hợp MobileNetV4 và nguyên mẫu desktop qua webcam; các hạng mục này chỉ được báo cáo định lượng khi có artifact độ trễ/FPS tương ứng.
+    \item xây dựng và đánh giá pipeline MediaPipe-guided ROI kết hợp MobileNetV4; nguyên mẫu desktop qua webcam chỉ được báo cáo định lượng khi có artifact độ trễ/FPS.
 \end{itemize}
 
 \section*{3. Đối tượng và phạm vi nghiên cứu}
@@ -30,7 +30,7 @@ Mục tiêu tổng quát của đồ án là xây dựng và đánh giá pipelin
 
 \section*{5. Đóng góp}
 \addcontentsline{toc}{section}{5. Đóng góp}
-Các đóng góp có thể kiểm chứng của đồ án là: protocol participant-disjoint có loại trùng lặp chính xác theo SHA-256; bốn baseline có artifact tái lập được; so sánh CNN, landmark+SVM và MobileNetV4 ở chế độ đóng băng/tinh chỉnh toàn bộ; và phân tích riêng hai lớp O/0. Đóng góp thực nghiệm được giới hạn ở các artifact này. ROI MediaPipe kết hợp MobileNetV4 và nguyên mẫu desktop chưa được xem là đóng góp hoàn tất vì chưa có benchmark và artifact tích hợp tương ứng.
+Các đóng góp có thể kiểm chứng của đồ án là: protocol participant-disjoint có loại trùng lặp SHA-256; các baseline tái lập; pipeline raw image--MediaPipe ROI--MobileNetV4 full fine-tuning; và phân tích O/0. Run 	exttt{mp-mnv4-003} có artifact bất biến, đạt Accuracy 96,66\% và Macro-F1 95,75\% trên P9. Nguyên mẫu desktop chưa là đóng góp hoàn tất vì chưa benchmark.
 
 \section*{6. Bố cục đồ án}
 \addcontentsline{toc}{section}{6. Bố cục đồ án}

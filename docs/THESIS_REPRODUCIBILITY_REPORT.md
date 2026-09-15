@@ -31,9 +31,10 @@ Bởi validation/test chỉ tương ứng một participant mỗi bên, chênh l
 | `cnn-001` | CNN from scratch | 72.10% | 83.25% | 80.10% | Mốc pixel model đơn giản; không nhận đúng lớp `0`. |
 | `mnv4-001` | MobileNetV4 Conv-S ImageNet, frozen | 66.42% | 79.88% | 77.29% | Freeze toàn backbone chưa phù hợp với domain. |
 | `mp-svm-001` | MediaPipe 2-hand landmarks + RBF SVM | 95.01% | 90.53% | 88.03% | Pose-only mạnh; 100% landmark coverage ở validation/test. |
-| `mnv4-002` | MobileNetV4 Conv-S ImageNet, full fine-tune | 92.11% | **94.51%** | **93.38%** | Baseline tốt nhất hiện tại. |
+| `mnv4-002` | MobileNetV4 Conv-S ImageNet, full fine-tune | 92.11% | 94.51% | 93.38% | Đối chứng archive processed. |
+| `mp-mnv4-003` | Raw image → MediaPipe ROI (padding 0,18; raw fallback) → MobileNetV4 full fine-tune | **95.18%** | **96.66%** | **95.75%** | Mô hình được chọn. |
 
-`mnv4-002` vượt `cnn-001` 11.26 điểm phần trăm test accuracy và vượt `mp-svm-001` 3.98 điểm. Kết quả cho thấy ImageNet pretraining chỉ phát huy khi fine-tune, không phải khi chỉ train classifier head. Các kết luận này chỉ áp dụng cho split đã khóa.
+`mp-mnv4-003` vượt `mnv4-002` 2,15 điểm phần trăm test accuracy và 2,37 điểm Macro-F1. MediaPipe detect 100% ở validation/test; train có 29 fallback raw. Các kết luận này chỉ áp dụng cho split đã khóa.
 
 ## 5. Provenance artifact
 
@@ -43,6 +44,7 @@ Bởi validation/test chỉ tương ứng một participant mỗi bên, chênh l
 | `mnv4-001` | [asl-hg-mobilenetv4-baseline](https://huggingface.co/hnam25/asl-hg-mobilenetv4-baseline) | `8b78dcf957e05d68e00fe252f939023011a29a92` |
 | `mp-svm-001` | [asl-hg-mediapipe-svm-baseline](https://huggingface.co/hnam25/asl-hg-mediapipe-svm-baseline) | `9cfccdf2e0fb39f7a517472ad3bb4f2988001518` |
 | `mnv4-002` | [asl-hg-mobilenetv4-finetune-baseline](https://huggingface.co/hnam25/asl-hg-mobilenetv4-finetune-baseline) | `0c9311dddce54fd8f7e8e6c688626cbbd8ba0ab0` |
+| `mp-mnv4-003` | [asl-hg-mediapipe-roi-transfer](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-transfer) | `fcb5d06567f8cdacce7ebfe70c63fa4f396c6007` |
 
 Landmark cache của `mp-svm-001` nằm tại `derived/mediapipe-two-hand-landmarks-v1/` trong dataset repository, commit `815e149b53ebbc5be9022fbfddb5b126a8938abf`. `mnv4-002` checkpoint đã được re-download và xác minh SHA-256 `a3a30a27290340a52e5cac408bc7dbbaa592cc6ebef3654113e3c004126b0101`.
 
@@ -54,6 +56,6 @@ Không cần train lại để kiểm tra số liệu: download model repository
 
 ## 7. Hướng nghiên cứu tiếp theo
 
-Phương pháp đề xuất là MediaPipe-guided crop/normalization kết hợp MobileNetV4 full fine-tuning (`mp-mnv4-001`). So sánh bắt buộc với `mnv4-002` trên cùng split và làm ablation raw image/crop, one-hand/two-hand, landmark-only/image-only. Mọi fallback khi detection thất bại phải được khóa policy trước khi xem test metrics.
+Phương pháp được chọn là raw image--MediaPipe ROI--MobileNetV4 full fine-tuning (`mp-mnv4-003`). ROI một tay dùng padding 0,18; fallback raw image được khóa trước khi xem test. So sánh với `mnv4-002` là ablation archive processed so với raw-image ROI. Leave-one-participant-out/external evaluation, one-hand/two-hand và latency vẫn là các hướng tiếp theo.
 
 Để đưa vào luận văn, nên bổ sung leave-one-participant-out hoặc external evaluation, latency đo trên cùng hardware, và phân tích lỗi theo từng lớp. Không tuyên bố hiệu năng tổng quát ngoài protocol P9 hiện tại.

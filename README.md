@@ -30,7 +30,7 @@ Mọi baseline dưới đây dùng cùng protocol: archive dữ liệu đã khó
    - `notebooks/08_cnn_baseline_reproducible.ipynb`: `cnn-001`.
    - `notebooks/09_mobilenetv4_timm_baseline_reproducible.ipynb`: `mnv4-001`.
    - `notebooks/10_mediapipe_svm_baseline_reproducible.ipynb`: `mp-svm-001`.
-   - `notebooks/11_mobilenetv4_timm_finetune_reproducible.ipynb`: `mnv4-002`, mô hình được chọn.
+   - `notebooks/11_mobilenetv4_timm_finetune_reproducible.ipynb`: `mnv4-002`, đối chứng archive processed.
    - `notebooks/12_mediapipe_crop_mobilenetv4_finetune_reproducible.ipynb`: thí nghiệm crop cache MediaPipe.
    - `notebooks/13_progressive_transfer_mobilenetv4_reproducible.ipynb`: thí nghiệm progressive transfer.
    - `scripts/run_mediapipe_transfer.py`: `mp-mnv4-003`, mô hình được chọn; crop ROI từ raw image bằng MediaPipe rồi fine-tune MobileNetV4; xem [runbook](docs/MEDIAPIPE_TRANSFER_RUN.md).

@@ -12,9 +12,9 @@ Bảng này phản ánh trạng thái có thể kiểm chứng từ repository v
 Hạng mục & Trạng thái & Bằng chứng hoặc giới hạn\\
 \midrule
 Audit, deduplication và participant split & Hoàn tất & Revision dữ liệu khóa; 36.000 ảnh được canonicalize còn 35.441 ảnh; split P1--P10 được lưu trong artifact.\\
-CNN, MobileNetV4 frozen, landmark+SVM và MobileNetV4 fine-tuning & Hoàn tất & Có metrics, checkpoint và artifact bất biến; \texttt{mnv4-002} là mô hình được chọn.\\
+CNN, MobileNetV4 frozen, landmark+SVM và MobileNetV4 fine-tuning & Hoàn tất & Có metrics, checkpoint và artifact bất biến; \texttt{mp-mnv4-003} là mô hình được chọn.\\
 Progressive transfer & Exploratory & Có số liệu trong tổng hợp thực nghiệm nhưng chưa có artifact bất biến được liệt kê; không dùng làm bằng chứng chính.\\
-ROI MediaPipe kết hợp MobileNetV4 & Chưa chứng minh & Có mã/notebook hướng tới crop, nhưng chưa có ablation có artifact cho thấy cải thiện so với \texttt{mnv4-002}.\\
+ROI MediaPipe kết hợp MobileNetV4 & Hoàn tất & \texttt{mp-mnv4-003} dùng raw image--ROI padding 0,18--MobileNetV4, đạt 96,66\% Accuracy trên P9.\\
 Webcam/realtime tích hợp mô hình được chọn & Chưa hoàn tất & Có nguyên mẫu OpenCV, nhưng chưa khớp runtime/checkpoint \texttt{mnv4-002} và chưa có benchmark.\\
 Đánh giá tổng quát hóa rộng hơn & Chưa hoàn tất & Chưa có leave-one-participant-out hoặc external test set.\\
 \bottomrule
