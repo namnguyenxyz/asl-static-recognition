@@ -16,7 +16,7 @@ $\rightarrow$ \fbox{Chọn checkpoint theo validation} $\rightarrow$ \fbox{Đán
 \end{figure}
 
 \section{Chuẩn bị dữ liệu}
-Kiểm kê kiểm tra số lớp, khả năng đọc ảnh, hash và ảnh trùng. Các run dùng một canonical representative cho mỗi SHA-256 để loại leakage. Run \texttt{mp-mnv4-003} lấy raw image canonical theo manifest/split khóa, dùng MediaPipe Hand Landmarker một tay tạo ROI vuông padding 0,18, rồi dùng raw image fallback nếu detection/ROI thất bại. Crop manifest, coverage, checkpoint và metrics được publish cùng artifact.
+Kiểm kê kiểm tra số lớp, khả năng đọc ảnh, hash và ảnh trùng. Các run dùng một canonical representative cho mỗi SHA-256 để loại leakage. Run \texttt{mp-mnv4-003-p010} lấy raw image canonical theo manifest/split khóa, dùng MediaPipe Hand Landmarker một tay tạo ROI vuông padding 0,10, rồi dùng raw image fallback nếu detection/ROI thất bại. Crop manifest, coverage, checkpoint và metrics được publish cùng artifact.
 
 \section{Mô hình baseline}
 Run \texttt{mnv4-001} sử dụng MobileNetV4 Conv-S tiền huấn luyện trên ImageNet với toàn bộ mạng nền bị đóng băng; chỉ đầu phân loại được thay để dự đoán 36 lớp. Run \texttt{mnv4-002} khởi tạo lại từ checkpoint ImageNet bất biến, thay đầu phân loại và cho phép toàn bộ tham số được cập nhật. Cả hai run đều chọn checkpoint có validation loss tốt nhất; do đó, kết quả test không được dùng để quyết định epoch hoặc siêu tham số.
@@ -24,7 +24,7 @@ Run \texttt{mnv4-001} sử dụng MobileNetV4 Conv-S tiền huấn luyện trên
 \section{Cấu hình huấn luyện}
 \begin{table}[ht]
 \centering
-\caption{Cấu hình huấn luyện của run \texttt{mp-mnv4-003}}
+\caption{Cấu hình huấn luyện của run \texttt{mp-mnv4-003-p010}}
 \label{tab:training-config}
 \begin{tabular}{ll}
 \toprule
@@ -43,7 +43,7 @@ Seed & 42\\
 \end{table}
 
 \section{Thiết kế cải tiến}
-CNN, MobileNetV4 frozen, MediaPipe landmarks+SVM, \texttt{mnv4-002} và \texttt{mp-mnv4-003} dùng cùng canonicalization và participant split. \texttt{mp-mnv4-003} fine-tune toàn bộ backbone với learning rate $10^{-4}$; policy fallback được khóa trước khi đọc test. So sánh \texttt{mnv4-002} (archive processed) với \texttt{mp-mnv4-003} (raw image--MediaPipe ROI) là ablation đầu vào hiện có; one-hand/two-hand và external evaluation còn là hướng mở rộng.
+CNN, MobileNetV4 frozen, MediaPipe landmarks+SVM, \texttt{mnv4-002} và \texttt{mp-mnv4-003-p010} dùng cùng canonicalization và participant split. \texttt{mp-mnv4-003-p010} fine-tune toàn bộ backbone với learning rate $10^{-4}$; policy fallback được khóa trước khi đọc test. So sánh \texttt{mnv4-002} (archive processed) với \texttt{mp-mnv4-003-p010} (raw image--MediaPipe ROI) là ablation đầu vào hiện có; one-hand/two-hand và external evaluation còn là hướng mở rộng.
 
 \section{Bảo đảm khả năng tái lập}
 Mỗi run cần lưu seed, config, phiên bản thư viện, checkpoint, learning curves, confusion matrix và failure manifest. Colab CLI được dùng để cấp GPU và thực thi notebook.

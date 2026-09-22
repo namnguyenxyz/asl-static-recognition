@@ -2,10 +2,10 @@
 \addcontentsline{toc}{chapter}{KẾT LUẬN VÀ KIẾN NGHỊ}
 
 \section*{1. Kết luận}
-Đồ án xây dựng protocol tái lập cho bài toán phân loại 36 lớp ảnh ASL-HG. Sau canonicalization SHA-256 và participant-disjoint split, pipeline raw image--MediaPipe ROI--MobileNetV4 full fine-tuning đạt Accuracy 96,66\% và Macro-F1 95,75\% trên P9. Đây là kết quả của protocol đã khóa, không phải ước lượng tổng quát hóa cho mọi người ký hiệu hoặc điều kiện thu ảnh.
+Đồ án xây dựng protocol tái lập cho bài toán phân loại 36 lớp ảnh ASL-HG. Sau canonicalization SHA-256 và participant-disjoint split, pipeline raw image--MediaPipe ROI--MobileNetV4 full fine-tuning đạt Accuracy 96,38\% và Macro-F1 95,64\% trên P9. Đây là kết quả của protocol đã khóa, không phải ước lượng tổng quát hóa cho mọi người ký hiệu hoặc điều kiện thu ảnh.
 
 \section*{2. Đóng góp}
-Các đóng góp gồm artifact tái lập với revision dữ liệu, canonical split, crop manifest, checkpoint và metrics; pipeline MediaPipe ROI + MobileNetV4; phân tích O/0; và \texttt{mp-mnv4-003} là mô hình được chọn trên P9.
+Các đóng góp gồm artifact tái lập với revision dữ liệu, canonical split, crop manifest, checkpoint và metrics; pipeline MediaPipe ROI + MobileNetV4; phân tích O/0; và \texttt{mp-mnv4-003-p010} là mô hình được chọn trên P9.
 
 \section*{3. Hạn chế}
 Các hạn chế đã xác định gồm validation và test chỉ có một participant mỗi split; chỉ kiểm tra exact duplicates; phạm vi phân loại ảnh tĩnh; không mô hình hóa chuyển động của J/Z hay dynamic gestures; chưa có external test, leave-one-participant-out hoặc error analysis định tính có hệ thống.

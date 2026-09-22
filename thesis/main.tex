@@ -45,7 +45,7 @@ Nhóm chúng tôi cam đoan nội dung đồ án này là kết quả nghiên c�
 
 \chapter*{TÓM TẮT}
 \addcontentsline{toc}{chapter}{TÓM TẮT}
-Đồ án trình bày pipeline tái lập cho bài toán phân loại 36 lớp ảnh bàn tay ASL-HG. Raw image canonical được crop ROI bởi MediaPipe Hand Landmarker với padding 0,18, sau đó MobileNetV4 Conv-S ImageNet được fine-tune toàn bộ. Mô hình \texttt{mp-mnv4-003} đạt Accuracy 96,66\% và Macro-F1 95,75\% trên test P9; validation/test có detection coverage 100\%. Khi không detect được tay, pipeline dùng raw image fallback và ghi manifest. Các số liệu chỉ áp dụng cho participant split đã khóa.
+Đồ án trình bày pipeline tái lập cho bài toán phân loại 36 lớp ảnh bàn tay ASL-HG. Raw image canonical được crop ROI bởi MediaPipe Hand Landmarker với padding 0,10, sau đó MobileNetV4 Conv-S ImageNet được fine-tune toàn bộ. Mô hình \texttt{mp-mnv4-003-p010} đạt Accuracy 96,38\% và Macro-F1 95,64\% trên test P9; validation/test có detection coverage 100\%. Khi không detect được tay, pipeline dùng raw image fallback và ghi manifest. Các số liệu chỉ áp dụng cho participant split đã khóa.
 
 \chapter*{DANH MỤC TỪ VIẾT TẮT}
 \addcontentsline{toc}{chapter}{DANH MỤC TỪ VIẾT TẮT}
@@ -71,7 +71,7 @@ GPU & Graphics Processing Unit\\
 
 \appendix
 \chapter{Thông số và hướng dẫn tái lập}
-Cấu hình, crop manifest, split, checkpoint, metrics và environment của run được chọn nằm trong artifact bất biến \texttt{mp-mnv4-003}, commit \texttt{fcb5d06567f8cdacce7ebfe70c63fa4f396c6007}. Cấu hình phần cứng chưa được tổng hợp để kết luận về tốc độ.
+Cấu hình, crop manifest, split, checkpoint, metrics và environment của run được chọn nằm trong artifact bất biến \texttt{mp-mnv4-003-p010}, commit \texttt{497a5ac4fead1c52c868e6f92e84002db5210c1c}. Cấu hình phần cứng chưa được tổng hợp để kết luận về tốc độ.
 
 \input{chapters/appendix_plan}
 

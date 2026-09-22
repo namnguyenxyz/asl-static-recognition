@@ -19,21 +19,21 @@ CNN từ đầu (\texttt{cnn-001}) & 83,25\% & 79,57\% & 83,31\% & 80,10\%\\
 MobileNetV4 Conv-S đóng băng (\texttt{mnv4-001}) & 79,88\% & 77,65\% & 79,94\% & 77,29\%\\
 MediaPipe landmarks + RBF SVM (\texttt{mp-svm-001}) & 90,53\% & 87,04\% & 90,52\% & 88,03\%\\
 MobileNetV4 Conv-S full fine-tuning (\texttt{mnv4-002}) & 94,51\% & 94,05\% & 94,53\% & 93,38\%\\
-MediaPipe ROI + MobileNetV4 (\texttt{mp-mnv4-003}) & \textbf{96,66\%} & \textbf{95,37\%} & \textbf{96,67\%} & \textbf{95,75\%}\\
+MediaPipe ROI + MobileNetV4 (\texttt{mp-mnv4-003-p010}) & \textbf{96,38\%} & \textbf{95,42\%} & \textbf{96,39\%} & \textbf{95,64\%}\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \section{So sánh các mô hình}
-\texttt{mp-mnv4-003} là mô hình được chọn. So với \texttt{mnv4-002}, test accuracy tăng 2,15 điểm phần trăm và Macro-F1 tăng 2,37 điểm. Run dùng raw image canonical, MediaPipe ROI một tay (padding 0,18) và raw fallback; coverage ở validation/test là 100\%. Kết luận chỉ áp dụng cho protocol đã khóa.
+\texttt{mp-mnv4-003-p010} là mô hình được chọn. So với \texttt{mnv4-002}, test accuracy tăng 2,15 điểm phần trăm và Macro-F1 tăng 2,26 điểm. Run dùng raw image canonical, MediaPipe ROI một tay (padding 0,10) và raw fallback; coverage ở validation/test là 100\%. Kết luận chỉ áp dụng cho protocol đã khóa.
 
 \section{Phân tích confusion matrix và cặp O/0}
-Trên P9, \texttt{mp-mnv4-003} có Recall 100\% ở cả O và 0, không có nhầm O$\rightarrow$0 hoặc 0$\rightarrow$O. Confusion matrix và classification report đầy đủ được publish trong artifact.
+Trên P9, \texttt{mp-mnv4-003-p010} có Recall 100\% ở cả O và 0, không có nhầm O$\rightarrow$0 hoặc 0$\rightarrow$O. Confusion matrix và classification report đầy đủ được publish trong artifact.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/mp_mnv4_003_confusion_matrix.png}
-\caption{Confusion matrix của \texttt{mp-mnv4-003} trên test P9.}
+\caption{Confusion matrix của \texttt{mp-mnv4-003-p010} trên test P9.}
 \label{fig:mp-mnv4-003-confusion}
 \end{figure}
 
@@ -44,4 +44,4 @@ Error analysis định tính theo nguyên nhân chưa được hoàn tất trong
 Kết quả hiện có trả lời các mục tiêu về phân loại ảnh, confusion matrix và O/0. Validation và test chỉ gồm một participant mỗi split, nên chênh lệch giữa chúng có thể phản ánh khác biệt người ký hiệu; kết quả không thay thế leave-one-participant-out hoặc external evaluation. Kết quả quan sát được phải được tách khỏi diễn giải của nhóm.
 
 \section{Kết luận chương}
-Chương này đã báo cáo các baseline có artifact tái lập, gồm \texttt{mp-mnv4-003} là pipeline MediaPipe ROI + MobileNetV4 được chọn. Đánh giá tổng quát hóa rộng hơn vẫn là công việc tiếp theo.
+Chương này đã báo cáo các baseline có artifact tái lập, gồm \texttt{mp-mnv4-003-p010} là pipeline MediaPipe ROI + MobileNetV4 được chọn. Đánh giá tổng quát hóa rộng hơn vẫn là công việc tiếp theo.
