@@ -1,0 +1,17 @@
+# Minimal runtime for scripts/run_mediapipe_transfer.py on current Colab.
+# TensorFlow is intentionally excluded: this PyTorch/timm experiment does not
+# import it, and Colab's Python 3.13 runtime has no wheel for the project's
+# pinned TensorFlow range.
+torch>=2.3,<2.8
+torchvision>=0.18,<0.23
+timm>=1.0,<1.1
+safetensors>=0.4,<1.0
+mediapipe>=0.10.14
+opencv-python>=4.9
+Pillow>=10.0
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.5
+matplotlib>=3.9
+seaborn>=0.13
+huggingface-hub>=0.25

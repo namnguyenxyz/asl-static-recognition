@@ -9,20 +9,20 @@ Hiệu quả của mô hình phụ thuộc vào chất lượng dữ liệu, v�
 
 \section*{2. Mục tiêu nghiên cứu}
 \addcontentsline{toc}{section}{2. Mục tiêu nghiên cứu}
-Mục tiêu tổng quát của đồ án là xây dựng và đánh giá pipeline phân loại 36 lớp ảnh bàn tay theo cách biểu diễn của tập ASL-HG; pipeline có thể nhận ảnh tĩnh hoặc từng khung hình webcam độc lập. Các mục tiêu cụ thể gồm:
+Mục tiêu tổng quát của đồ án là xây dựng và đánh giá pipeline phân loại 36 lớp ảnh bàn tay theo cách biểu diễn của tập ASL-HG. Các mục tiêu cụ thể gồm:
 \begin{itemize}
     \item xây dựng quy trình tái lập được từ dữ liệu đã khóa phiên bản, kiểm kê dữ liệu, loại trùng lặp chính xác, chia dữ liệu theo người ký hiệu, huấn luyện và đánh giá;
     \item đánh giá các baseline CNN từ đầu, MediaPipe landmarks kết hợp SVM, và MobileNetV4 Conv-S tiền huấn luyện trên ImageNet ở hai chế độ backbone đóng băng và tinh chỉnh toàn bộ;
     \item đánh giá mô hình bằng Accuracy, Precision, Recall, F1-score theo lớp, confusion matrix và các chỉ số nhầm lẫn theo hai hướng O$\rightarrow$0, 0$\rightarrow$O;
     \item lựa chọn mô hình dựa trên validation set; chỉ sử dụng test set đã khóa cho đánh giá cuối cùng;
-    \item xây dựng và đánh giá pipeline MediaPipe-guided ROI kết hợp MobileNetV4; nguyên mẫu desktop qua webcam chỉ được báo cáo định lượng khi có artifact độ trễ/FPS.
+    \item xây dựng và đánh giá pipeline MediaPipe-guided ROI kết hợp MobileNetV4.
 \end{itemize}
 
 \section*{3. Đối tượng và phạm vi nghiên cứu}
 \addcontentsline{toc}{section}{3. Đối tượng và phạm vi nghiên cứu}
 Đối tượng nghiên cứu là 36.000 ảnh thuộc 36 lớp A--Z và 0--9 của tập ASL-HG \cite{asl-hg-original}. Repository Hugging Face của nhóm là nguồn phân phối dùng trong quá trình tái lập \cite{asl-hg-repo}. Cụm ``36 lớp ảnh'' phản ánh quy ước nhãn của dataset, không khẳng định toàn bộ các chữ cái ASL đều là cử chỉ tĩnh về mặt ngôn ngữ học: fingerspelling của J và Z có thành phần chuyển động.
 
-Đề tài xét ảnh tĩnh một bàn tay hoặc từng khung hình webcam độc lập. Webcam cung cấp chuỗi khung hình, nhưng mô hình hiện tại không mô hình hóa thông tin thời gian giữa các khung hình; vì vậy, nhận dạng cử chỉ động, chuỗi ký hiệu, câu và diễn giải ngữ nghĩa nằm ngoài phạm vi nghiên cứu.
+Đề tài xét ảnh tĩnh một bàn tay. Nhận dạng cử chỉ động, chuỗi ký hiệu, câu và diễn giải ngữ nghĩa nằm ngoài phạm vi nghiên cứu.
 
 \section*{4. Phương pháp nghiên cứu tổng quát}
 \addcontentsline{toc}{section}{4. Phương pháp nghiên cứu tổng quát}
@@ -34,4 +34,4 @@ Các đóng góp có thể kiểm chứng của đồ án là: protocol particip
 
 \section*{6. Bố cục đồ án}
 \addcontentsline{toc}{section}{6. Bố cục đồ án}
-Chương 1 trình bày tổng quan bài toán và các nghiên cứu liên quan. Chương 2 giới thiệu cơ sở lý thuyết, dữ liệu và các chỉ số đánh giá. Chương 3 mô tả pipeline, mô hình và thiết kế thực nghiệm. Chương 4 trình bày kết quả và bàn luận. Chương 5 mô tả nguyên mẫu triển khai thời gian thực. Chương 6 tổng kết, nêu hạn chế và hướng phát triển.
+Chương 1 trình bày tổng quan bài toán và các nghiên cứu liên quan. Chương 2 giới thiệu cơ sở lý thuyết, dữ liệu và các chỉ số đánh giá. Chương 3 mô tả pipeline, mô hình và thiết kế thực nghiệm. Chương 4 trình bày kết quả và bàn luận. Chương 5 tổng kết, nêu hạn chế và hướng phát triển.

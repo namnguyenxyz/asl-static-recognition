@@ -40,7 +40,7 @@ Run 	exttt{mp-mnv4-003} dùng raw image canonical, MediaPipe Hand Landmarker m�
 Dữ liệu được chia theo người ký hiệu (participant-disjoint), không phải random split từng ảnh. Sau canonicalization, tập huấn luyện gồm P1, P3--P8 và P10 (28.365 ảnh); tập xác thực là P2 (3.487 ảnh); tập kiểm thử là P9 (3.589 ảnh). Seed được cố định là 42. Tập xác thực được dùng cho lựa chọn checkpoint và siêu tham số. Tập kiểm thử được giữ nguyên trong quá trình phát triển và chỉ dùng sau khi model selection hoàn tất. Protocol này ngăn cùng SHA-256 xuất hiện ở nhiều split, nhưng chỉ có một participant ở validation/test nên chưa thay thế được leave-one-participant-out hoặc external test set.
 
 \section{Chỉ số đánh giá}
-Các chỉ số gồm Accuracy, Precision, Recall và F1-score theo lớp. Confusion matrix được sử dụng để quan sát các cặp lớp dễ nhầm, đặc biệt là hai hướng O$\rightarrow$0 và 0$\rightarrow$O. Với nguyên mẫu thời gian thực, nhóm ghi nhận độ trễ cho bước định vị bàn tay và bước suy luận mô hình, cùng FPS; các chỉ số này không được thay thế bằng nhận định định tính như ``nhạy'' hoặc ``ổn định''.
+Các chỉ số gồm Accuracy, Precision, Recall và F1-score theo lớp. Confusion matrix được sử dụng để quan sát các cặp lớp dễ nhầm, đặc biệt là hai hướng O$\rightarrow$0 và 0$\rightarrow$O.
 
 \section{Kết luận chương}
 Chương này đã trình bày nền tảng CNN, học chuyển giao, dữ liệu và protocol tiền xử lý. Chương 3 mô tả cách các thành phần được kết hợp thành pipeline thực nghiệm.

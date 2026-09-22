@@ -31,8 +31,8 @@ thesis/
 | 3 | Cơ sở lý thuyết/liên quan | Có thể bắt đầu | ASL-HG, CNN, MobileNetV4, MediaPipe Hand Landmarker và các chỉ số đánh giá | Chương nền tảng bản nháp + tài liệu tham khảo |
 | 4 | Phương pháp đề xuất | Có thể viết ngay từ source | Mô tả dataset, audit, canonicalization, participant split, MobileNetV4 và quy trình tái lập bằng Colab CLI | Chương phương pháp bản nháp + sơ đồ pipeline |
 | 5 | Thiết kế thực nghiệm | Viết ngay | Nêu participant-disjoint split, seed/config, metric, tiêu chí chọn model và protocol phân tích `O`/`0` | Khung chương thực nghiệm |
-| 6 | Kết quả và thảo luận | Có dữ liệu baseline | Chèn metrics, confusion matrix và phân tích `O`/`0`; để TODO cho latency/FPS và MediaPipe-guided crop | Chương kết quả |
-| 7 | Kết luận | Viết khung ngay, hoàn thiện sau | Tổng kết đóng góp, hạn chế, hướng phát triển (fine-tuning, TFLite, realtime) | Chương kết luận |
+| 6 | Kết quả và thảo luận | Có dữ liệu baseline | Chèn metrics, confusion matrix, phân tích `O`/`0` và MediaPipe-guided crop | Chương kết quả |
+| 7 | Kết luận | Viết khung ngay, hoàn thiện sau | Tổng kết đóng góp, hạn chế và hướng phát triển (fine-tuning, TFLite) | Chương kết luận |
 | 8 | Rà soát cuối | Chờ quy chuẩn trường | Đồng bộ thuật ngữ, trích dẫn, bảng/hình, phụ lục, kiểm tra PDF và tái lập kết quả | Bản nộp hoàn chỉnh |
 
 ## Việc có thể bắt đầu ngay
@@ -48,7 +48,6 @@ thesis/
 
 - Template LaTeX, quy định font/lề/trang bìa và đề mục bắt buộc của trường.
 - Kết quả baseline/fine-tuning cuối cùng, biểu đồ training và confusion matrix.
-- Benchmark FPS/latency realtime.
 - Tiêu chí chính thức để khẳng định đã giảm nhầm lẫn giữa `O` và `0`.
 - Danh mục tài liệu tham khảo do giảng viên yêu cầu.
 

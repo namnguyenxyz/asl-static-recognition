@@ -45,7 +45,7 @@ Nhóm chúng tôi cam đoan nội dung đồ án này là kết quả nghiên c�
 
 \chapter*{TÓM TẮT}
 \addcontentsline{toc}{chapter}{TÓM TẮT}
-Đồ án trình bày pipeline tái lập cho bài toán phân loại 36 lớp ảnh bàn tay ASL-HG. Raw image canonical được crop ROI bởi MediaPipe Hand Landmarker với padding 0,18, sau đó MobileNetV4 Conv-S ImageNet được fine-tune toàn bộ. Mô hình \texttt{mp-mnv4-003} đạt Accuracy 96,66\% và Macro-F1 95,75\% trên test P9; validation/test có detection coverage 100\%. Khi không detect được tay, pipeline dùng raw image fallback và ghi manifest. Các số liệu chỉ áp dụng cho participant split đã khóa; realtime webcam chưa được benchmark.
+Đồ án trình bày pipeline tái lập cho bài toán phân loại 36 lớp ảnh bàn tay ASL-HG. Raw image canonical được crop ROI bởi MediaPipe Hand Landmarker với padding 0,18, sau đó MobileNetV4 Conv-S ImageNet được fine-tune toàn bộ. Mô hình \texttt{mp-mnv4-003} đạt Accuracy 96,66\% và Macro-F1 95,75\% trên test P9; validation/test có detection coverage 100\%. Khi không detect được tay, pipeline dùng raw image fallback và ghi manifest. Các số liệu chỉ áp dụng cho participant split đã khóa.
 
 \chapter*{DANH MỤC TỪ VIẾT TẮT}
 \addcontentsline{toc}{chapter}{DANH MỤC TỪ VIẾT TẮT}
@@ -53,7 +53,6 @@ Nhóm chúng tôi cam đoan nội dung đồ án này là kết quả nghiên c�
 ASL & American Sign Language\\
 CNN & Convolutional Neural Network\\
 GPU & Graphics Processing Unit\\
-FPS & Frames Per Second\\
 \end{tabular}
 
 \tableofcontents
@@ -65,7 +64,6 @@ FPS & Frames Per Second\\
 \input{chapters/02_theory_data}
 \input{chapters/03_methodology}
 \input{chapters/04_results}
-\input{chapters/05_deployment}
 \input{chapters/06_conclusion}
 
 \bibliographystyle{plain}

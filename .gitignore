@@ -16,6 +16,7 @@ scripts/colab_segment.py
 .secrets/
 .env
 cache-download/
+local-artifacts/
 thesis/main.aux
 thesis/main.bbl
 thesis/main.blg

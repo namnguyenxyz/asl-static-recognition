@@ -46,7 +46,7 @@ Seed & 42\\
 CNN, MobileNetV4 frozen, MediaPipe landmarks+SVM, \texttt{mnv4-002} và \texttt{mp-mnv4-003} dùng cùng canonicalization và participant split. \texttt{mp-mnv4-003} fine-tune toàn bộ backbone với learning rate $10^{-4}$; policy fallback được khóa trước khi đọc test. So sánh \texttt{mnv4-002} (archive processed) với \texttt{mp-mnv4-003} (raw image--MediaPipe ROI) là ablation đầu vào hiện có; one-hand/two-hand và external evaluation còn là hướng mở rộng.
 
 \section{Bảo đảm khả năng tái lập}
-Mỗi run cần lưu seed, config, phiên bản thư viện, checkpoint, learning curves, confusion matrix và failure manifest. Colab CLI được dùng để cấp GPU và thực thi notebook. Nguyên mẫu suy luận chạy cục bộ bằng Python và OpenCV trên nền tảng desktop; webcam không chạy trong session GPU. Nếu yêu cầu triển khai thay đổi, việc xây dựng giao diện web là hạng mục ngoài phạm vi hiện tại và cần được quyết định riêng.
+Mỗi run cần lưu seed, config, phiên bản thư viện, checkpoint, learning curves, confusion matrix và failure manifest. Colab CLI được dùng để cấp GPU và thực thi notebook.
 
 \section{Kết luận chương}
 Chương này đã mô tả pipeline baseline, cấu hình mô hình và nguyên tắc thiết kế thí nghiệm. Các kết quả định lượng sẽ được trình bày ở chương tiếp theo sau khi hoàn thành các run chính thức.

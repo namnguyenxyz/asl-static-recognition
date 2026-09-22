@@ -19,6 +19,6 @@ Nếu môi trường chưa có Times New Roman, file `main.tex` tạm dùng TeX 
 ## Nguyên tắc nội dung
 
 - Chỉ dùng số liệu đã xuất từ notebook hoặc artifact có thể truy vết.
-- `mp-mnv4-003` là kết quả MediaPipe ROI + MobileNetV4 đã có artifact; realtime benchmark vẫn chưa hoàn thành.
+- `mp-mnv4-003` là kết quả MediaPipe ROI + MobileNetV4 đã có artifact.
 - Các thông tin hành chính chưa được cung cấp (ví dụ tên giảng viên hướng dẫn) được để trống, không suy đoán.
 - Mục/tiểu mục sẽ điều chỉnh sau khi có template chính thức.

@@ -5,8 +5,8 @@ def build_cnn(num_classes: int, image_size: int = 128, dropout: float = 0.3):
     """Build a small CNN for RGB ASL hand crops.
 
     Input images are expected in the ``[0, 255]`` range, as produced by the
-    dataloader. Rescaling is kept inside the model so training, evaluation and
-    webcam inference share identical preprocessing.
+    dataloader. Rescaling is kept inside the model so training and evaluation
+    share identical preprocessing.
     """
     import tensorflow as tf
 
