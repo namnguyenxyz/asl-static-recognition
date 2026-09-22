@@ -34,3 +34,8 @@ Phương pháp đạt **96,66% test accuracy** và **95,75% macro-F1**. Checkpoi
 ## Hạn chế
 
 Kết quả áp dụng cho split participant-disjoint hiện tại; validation và test chỉ tương ứng một participant mỗi bên. Không nên khẳng định khả năng tổng quát hóa ngoài protocol này nếu chưa có leave-one-participant-out hoặc external test set.
+## Addendum: ablation ROI padding 0,10
+
+Theo lựa chọn trên validation P2, cấu hình ROI padding 0,10 với raw-image fallback đạt 92,77% validation accuracy và 91,64% Macro-F1. Đánh giá P9 được chạy đúng một lần sau khi khóa cấu hình: **96,38% test accuracy**, **95,64% Macro-F1**, macro precision 95,42% và macro recall 96,39%. Recall `O` và `0` đều 100%, không có lỗi `O→0` hoặc `0→O`.
+
+Checkpoint, P9 summary, predictions và error pairs được publish tại [asl-hg-mediapipe-roi-p010-final](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-p010-final), commit `497a5ac4fead1c52c868e6f92e84002db5210c1c`. Kết quả P9 này không được dùng để chọn padding/fallback; so sánh với run ROI padding 0,18 trước đó phải nêu rõ khác biệt lựa chọn theo P2.

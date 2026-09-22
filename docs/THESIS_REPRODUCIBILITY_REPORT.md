@@ -2,7 +2,7 @@
 
 ## 1. Mục tiêu và phạm vi
 
-Đồ án phân loại 36 ký hiệu ASL tĩnh (`0–9`, `A–Z`) từ ảnh. Mục tiêu của repository là tạo chuỗi bằng chứng tái lập: audit dữ liệu, khóa split, chạy baseline, publish artifact và kiểm tra lại checksum. Webcam/demo local không thuộc protocol đánh giá và không được dùng tạo score trong báo cáo.
+Đồ án phân loại 36 ký hiệu ASL tĩnh (`0–9`, `A–Z`) từ ảnh. Mục tiêu của repository là tạo chuỗi bằng chứng tái lập: audit dữ liệu, khóa split, chạy baseline, publish artifact và kiểm tra lại checksum.
 
 ## 2. Dữ liệu, audit và split
 
@@ -56,6 +56,10 @@ Không cần train lại để kiểm tra số liệu: download model repository
 
 ## 7. Hướng nghiên cứu tiếp theo
 
-Phương pháp được chọn là raw image--MediaPipe ROI--MobileNetV4 full fine-tuning (`mp-mnv4-003`). ROI một tay dùng padding 0,18; fallback raw image được khóa trước khi xem test. So sánh với `mnv4-002` là ablation archive processed so với raw-image ROI. Leave-one-participant-out/external evaluation, one-hand/two-hand và latency vẫn là các hướng tiếp theo.
+Phương pháp được chọn là raw image--MediaPipe ROI--MobileNetV4 full fine-tuning (`mp-mnv4-003`). ROI một tay dùng padding 0,18; fallback raw image được khóa trước khi xem test. So sánh với `mnv4-002` là ablation archive processed so với raw-image ROI. Leave-one-participant-out/external evaluation và one-hand/two-hand vẫn là các hướng tiếp theo.
 
 Để đưa vào luận văn, nên bổ sung leave-one-participant-out hoặc external evaluation, latency đo trên cùng hardware, và phân tích lỗi theo từng lớp. Không tuyên bố hiệu năng tổng quát ngoài protocol P9 hiện tại.
+
+## Addendum ROI padding 0,10
+
+Ablation P2 chọn ROI padding 0,10 + raw fallback (accuracy 92,77%, Macro-F1 91,64%). Đánh giá P9 duy nhất đạt **96,38% accuracy** và **95,64% Macro-F1**; artifact immutable: [asl-hg-mediapipe-roi-p010-final](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-p010-final), commit `497a5ac4fead1c52c868e6f92e84002db5210c1c`.
