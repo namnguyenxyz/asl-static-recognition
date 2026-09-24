@@ -18,6 +18,8 @@ scripts/colab_segment.py
 cache-download/
 local-artifacts/
 thesis/main.aux
+thesis/main.fdb_latexmk
+thesis/main.fls
 thesis/main.bbl
 thesis/main.blg
 thesis/main.lof
@@ -26,6 +28,8 @@ thesis/main.lot
 thesis/main.out
 thesis/main.pdf
 thesis/main.toc
+thesis/main.xdv
+thesis/pdflatex*.fls
 
 # Reusable metadata cache: small enough for Git and needed to skip dataset audit.
 !data/metadata/dataset_audit.csv

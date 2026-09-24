@@ -25,7 +25,7 @@ MediaPipe ROI + MobileNetV4 (\texttt{mp-mnv4-003-p010}) & \textbf{96,38\%} & \te
 \end{table}
 
 \section{So sánh các mô hình}
-\texttt{mp-mnv4-003-p010} là mô hình được chọn. So với \texttt{mnv4-002}, test accuracy tăng 2,15 điểm phần trăm và Macro-F1 tăng 2,26 điểm. Run dùng raw image canonical, MediaPipe ROI một tay (padding 0,10) và raw fallback; coverage ở validation/test là 100\%. Kết luận chỉ áp dụng cho protocol đã khóa.
+\texttt{mp-mnv4-003-p010} là mô hình được chọn. So với \texttt{mnv4-002}, test accuracy tăng 1,87 điểm phần trăm và Macro-F1 tăng 2,26 điểm. Run dùng raw image canonical, MediaPipe ROI một tay (padding 0,10) và raw fallback; coverage ở validation/test là 100\%. Kết luận chỉ áp dụng cho protocol đã khóa.
 
 \section{Phân tích confusion matrix và cặp O/0}
 Trên P9, \texttt{mp-mnv4-003-p010} có Recall 100\% ở cả O và 0, không có nhầm O$\rightarrow$0 hoặc 0$\rightarrow$O. Confusion matrix và classification report đầy đủ được publish trong artifact.
