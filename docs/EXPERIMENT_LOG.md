@@ -24,4 +24,4 @@ Dấu `*` chỉ run exploratory, không dùng làm bằng chứng chính. Metric
 
 ## Addendum ROI padding 0,10
 
-`mp-mnv4-003-p010-raw`: chọn theo P2 (accuracy 92,77%, Macro-F1 91,64%); P9 chạy một lần cho **96,38% accuracy** và **95,64% Macro-F1**. Artifact: [asl-hg-mediapipe-roi-p010-final](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-p010-final), commit `497a5ac4fead1c52c868e6f92e84002db5210c1c`.
+`mp-mnv4-003-p010-raw`: chọn theo P2 (accuracy 92,77%, Macro-F1 91,64%); P9 chạy một lần cho **96,38% accuracy** và **95,64% Macro-F1**. Artifact: [asl-hg-mediapipe-roi-p010-final](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-p010-final), commit `e2faeb2768d2b081a9f7c9acc410401f7b758f1b`.

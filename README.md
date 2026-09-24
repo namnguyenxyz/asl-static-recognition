@@ -12,9 +12,9 @@ Mọi baseline dưới đây dùng cùng protocol: archive dữ liệu đã khó
 | `mnv4-001` | MobileNetV4 Conv-S ImageNet, frozen | 66.42% | 79.88% | 77.29% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mobilenetv4-baseline) |
 | `mp-svm-001` | MediaPipe two-hand landmarks + RBF SVM | 95.01% | 90.53% | 88.03% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mediapipe-svm-baseline) |
 | `mnv4-002` | MobileNetV4 Conv-S ImageNet, full fine-tuning trên archive processed | 92.11% | 94.51% | 93.38% | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mobilenetv4-finetune-baseline) |
-| `mp-mnv4-003` | **Raw image → MediaPipe ROI → MobileNetV4 Conv-S full fine-tuning** | **95.18%** | **96.66%** | **95.75%** | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-transfer) |
+| `mp-mnv4-003-p010` | **Raw image → MediaPipe ROI padding 0.10 → MobileNetV4 Conv-S full fine-tuning** | **92.77%** | **96.38%** | **95.64%** | [Hugging Face](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-p010-final) |
 
-`mp-mnv4-003` là mô hình được chọn. Nó crop ROI từ raw image canonical bằng MediaPipe Hand Landmarker (padding 0,18), dùng raw image fallback khi không detect được tay, rồi fine-tune toàn bộ MobileNetV4. Trên test P9, detection coverage là 100% (3.589/3.589); train có 29/28.365 fallback raw. Kết quả chỉ áp dụng cho protocol participant-disjoint đã khóa. Báo cáo chi tiết nằm trong [báo cáo tái lập](docs/THESIS_REPRODUCIBILITY_REPORT.md).
+`mp-mnv4-003-p010` là mô hình được chọn. Nó crop ROI từ raw image canonical bằng MediaPipe Hand Landmarker (padding 0,10), dùng raw image fallback khi không detect được tay, rồi fine-tune toàn bộ MobileNetV4. Trên test P9, detection coverage là 100% (3.589/3.589); train có 29/28.365 fallback raw. Kết quả chỉ áp dụng cho protocol participant-disjoint đã khóa. Báo cáo chi tiết nằm trong [báo cáo tái lập](docs/THESIS_REPRODUCIBILITY_REPORT.md).
 
 ## Tái lập nhanh
 
