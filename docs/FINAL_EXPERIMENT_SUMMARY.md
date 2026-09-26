@@ -39,3 +39,9 @@ Kết quả áp dụng cho split participant-disjoint hiện tại; validation v
 Theo lựa chọn trên validation P2, cấu hình ROI padding 0,10 với raw-image fallback đạt 92,77% validation accuracy và 91,64% Macro-F1. Đánh giá P9 được chạy đúng một lần sau khi khóa cấu hình: **96,38% test accuracy**, **95,64% Macro-F1**, macro precision 95,42% và macro recall 96,39%. Recall `O` và `0` đều 100%, không có lỗi `O→0` hoặc `0→O`.
 
 Checkpoint, P9 summary, predictions và error pairs được publish tại [asl-hg-mediapipe-roi-p010-final](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-p010-final), commit `e2faeb2768d2b081a9f7c9acc410401f7b758f1b`. Kết quả P9 này không được dùng để chọn padding/fallback; so sánh với run ROI padding 0,18 trước đó phải nêu rõ khác biệt lựa chọn theo P2.
+
+## Ablation MediaPipe và giới hạn generalization
+
+Để cô lập MediaPipe ROI, raw-image control giữ nguyên raw archive, canonical split, seed 42, MobileNetV4 Conv-S và full fine-tuning; chỉ thay ROI bằng ảnh raw. Control đạt 90,22% test accuracy và 88,81% Macro-F1 trên P9. So với ROI p=0,10 (96,38% / 95,64%), MediaPipe ROI đóng góp quan sát được **+6,16 điểm accuracy** và **+6,75 điểm Macro-F1** trong protocol P9. Đây là kết luận ablation chính; không suy rộng tự động ra mọi camera/dataset.
+
+Hai kiểm tra zero-shot ngoài tập, không fine-tune, cho kết quả thấp: Sign Language MNIST 7.172 ảnh đạt 14,15% accuracy / 12,42% Macro-F1; RGB smoke test 600 ảnh đạt 14,33% / 14,64%, với ROI coverage 79,83%. Do đó mô hình mạnh trong miền ASL-HG nhưng chưa tổng quát hóa tốt sang nguồn ảnh khác. Demo 36 ảnh giáo dục tìm qua Google Image Search có raw 19/36 đúng và ROI 25/36 đúng (34/36 detect), nhưng chỉ là ví dụ định tính, không phải benchmark.

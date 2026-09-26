@@ -25,3 +25,16 @@ Dấu `*` chỉ run exploratory, không dùng làm bằng chứng chính. Metric
 ## Addendum ROI padding 0,10
 
 `mp-mnv4-003-p010-raw`: chọn theo P2 (accuracy 92,77%, Macro-F1 91,64%); P9 chạy một lần cho **96,38% accuracy** và **95,64% Macro-F1**. Artifact: [asl-hg-mediapipe-roi-p010-final](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-p010-final), commit `e2faeb2768d2b081a9f7c9acc410401f7b758f1b`.
+
+## Ablation raw-image control và external evaluation
+
+Raw-image control dùng cùng raw archive, canonical participant split, seed 42, MobileNetV4 Conv-S và full fine-tuning như ứng viên ROI; chỉ thay preprocessing thành raw image. P2 selection đạt 84,74% accuracy; P9 đánh giá một lần đạt **90,22% accuracy** và **88,81% Macro-F1**. So với ROI p=0,10 trên P9, MediaPipe ROI có đóng góp quan sát được **+6,16 điểm accuracy** và **+6,75 điểm Macro-F1**. Artifact: [asl-hg-mp-mnv4-raw-control](https://huggingface.co/hnam25/asl-hg-mp-mnv4-raw-control).
+
+| Kiểm tra ngoài tập (zero-shot, không fine-tune) | Phạm vi | Accuracy | Macro-F1 | Diễn giải |
+|---|---:|---:|---:|---|
+| Sign Language MNIST | 7.172 ảnh, 24 chữ tĩnh chung A--I/K--Y | 14,15% | 12,42% | Ảnh 28×28 grayscale đã căn chỉnh; khác miền dữ liệu ASL-HG. |
+| RGB smoke | 600 ảnh, 25 ảnh/lớp tĩnh, seed 42 | 14,33% | 14,64% | Nguồn RGB khác; ROI detect 79,83%. Không phải official held-out benchmark. |
+
+Hai phép đo ngoài tập là bằng chứng giới hạn generalization, không dùng để chọn checkpoint/hyperparameter. Artifact: [MNIST](https://huggingface.co/hnam25/asl-hg-external-sign-mnist-eval), [RGB smoke](https://huggingface.co/hnam25/asl-hg-external-rgb-smoke-600).
+
+Demo định tính 36 ảnh ASL giáo dục tìm qua Google Image Search: raw 19/36 đúng, MediaPipe ROI 25/36 đúng, detection 34/36. Vì một ảnh/lớp có nền sạch và không phải sampling benchmark, nó chỉ minh họa tác động ROI; không được diễn giải thành accuracy tổng quát. [Artifact demo](https://huggingface.co/hnam25/asl-hg-google-image-qualitative-36).

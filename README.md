@@ -16,6 +16,14 @@ Mọi baseline dưới đây dùng cùng protocol: archive dữ liệu đã khó
 
 `mp-mnv4-003-p010` là mô hình được chọn. Nó crop ROI từ raw image canonical bằng MediaPipe Hand Landmarker (padding 0,10), dùng raw image fallback khi không detect được tay, rồi fine-tune toàn bộ MobileNetV4. Trên test P9, detection coverage là 100% (3.589/3.589); train có 29/28.365 fallback raw. Kết quả chỉ áp dụng cho protocol participant-disjoint đã khóa. Báo cáo chi tiết nằm trong [báo cáo tái lập](docs/THESIS_REPRODUCIBILITY_REPORT.md).
 
+## Ablation và kiểm tra ngoài tập
+
+Ablation cùng raw archive, split participant-disjoint, seed, backbone và full fine-tuning cho thấy raw-image control đạt 90,22% accuracy / 88,81% Macro-F1 trên P9, trong khi ROI MediaPipe p=0,10 đạt 96,38% / 95,64%. Do đó ROI đóng góp quan sát được **+6,16 điểm accuracy** và **+6,75 điểm Macro-F1** trong protocol P9. Artifact control: [Hugging Face](https://huggingface.co/hnam25/asl-hg-mp-mnv4-raw-control).
+
+Hai kiểm tra zero-shot ngoài tập cho thấy giới hạn tổng quát hóa: Sign Language MNIST (7.172 ảnh, 24 chữ tĩnh chung) đạt 14,15% accuracy / 12,42% Macro-F1; RGB smoke test (600 ảnh, 25 ảnh mỗi lớp tĩnh, seed 42) đạt 14,33% / 14,64%, với ROI detection coverage 79,83%. Đây là external evaluation không fine-tune; chúng không được dùng để chọn mô hình. Xem [artifact MNIST](https://huggingface.co/hnam25/asl-hg-external-sign-mnist-eval) và [artifact RGB smoke](https://huggingface.co/hnam25/asl-hg-external-rgb-smoke-600).
+
+Demo định tính gồm 36 ảnh ASL giáo dục tìm qua Google Image Search (một ảnh/lớp) cho 19/36 dự đoán đúng ở ảnh gốc và 25/36 sau MediaPipe ROI; MediaPipe detect 34/36 ảnh. Đây chỉ là minh họa có ảnh nền sạch, không phải benchmark hay bằng chứng generalization. Bảng URL nguồn và dự đoán: [artifact demo](https://huggingface.co/hnam25/asl-hg-google-image-qualitative-36).
+
 ## Tái lập nhanh
 
 1. Cài môi trường:

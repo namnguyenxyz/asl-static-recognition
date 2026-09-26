@@ -67,3 +67,9 @@ Ablation P2 chọn ROI padding 0,10 + raw fallback (accuracy 92,77%, Macro-F1 91
 ## Final selected ROI 0.10 artifact
 
 The P2-selected ROI padding 0.10 raw-fallback run was evaluated on P9 once: 96.38% accuracy and 95.64% Macro-F1. Artifact: [asl-hg-mediapipe-roi-p010-final](https://huggingface.co/hnam25/asl-hg-mediapipe-roi-p010-final), commit `e2faeb2768d2b081a9f7c9acc410401f7b758f1b`.
+
+## External checks and scoped conclusion
+
+The matched raw-image control (same raw archive, participant split, seed, backbone and fine-tuning; no ROI) reached 90.22% P9 accuracy and 88.81% Macro-F1. The selected ROI p=0.10 run therefore shows an observed P9 contribution of +6.16 percentage points accuracy and +6.75 points Macro-F1. This supports ROI benefit within the locked ASL-HG protocol only.
+
+Zero-shot external checks were not used for model selection or adaptation. Sign Language MNIST (7,172 images in the shared 24 static-letter label space) reached 14.15% accuracy and 12.42% Macro-F1. A 600-image RGB smoke test (25 images per shared static letter, fixed seed 42) reached 14.33% accuracy and 14.64% Macro-F1, with 79.83% MediaPipe ROI coverage. Thus the model does not demonstrate cross-dataset generalization. A separate 36-image Google-discovered educational-image demonstration improved from 19/36 raw-image matches to 25/36 ROI matches, but is qualitative only and is not a benchmark.
